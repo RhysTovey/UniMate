@@ -1,10 +1,13 @@
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 import java.util.StringTokenizer;
-import java.util.stream.Stream;
 
 public class TaskManager {
     private static List<Task> activeTaskList = new ArrayList<>();
@@ -16,26 +19,6 @@ public class TaskManager {
     }
     public static List<Task> getCompletedTaskList() {
         return completedTaskList;
-    }
-
-    public static void printTaskList() {
-        for (Task task : activeTaskList) {
-            System.out.println("<---- Task ID " + activeTaskList.indexOf(task) +  " ---->");
-            System.out.println("Title: " + task.getTitle() + "\n"
-            + "Description: "+task.getDescription() + "\n" +
-                    "Deadline: "+task.getDeadline().toString() + "\n");
-        }
-
-
-
-    }
-
-
-    public static void addTask(Task task) {
-        activeTaskList.add(task);
-    }
-    public static void removeTask(Task task) {
-        activeTaskList.remove(task);
     }
 
     public static void createTask() {
@@ -54,8 +37,13 @@ public class TaskManager {
             boolean completed = yesOrNo(input);
             Task newTask = new Task(title, description, date, deadline, repeats, completed);
             System.out.println("New task created: " + "\n" + newTask);
-            activeTaskList.add(newTask);
-
+            if (completed) {
+                completedTaskList.add(newTask);
+            }
+            else  {
+                activeTaskList.add(newTask);
+            }
+            saveTasks();
         }
 
         catch (Exception e) {
@@ -64,17 +52,43 @@ public class TaskManager {
 
     }
 
-    public static String removeTask(String id) {
+    public static void printTaskList() {
+        if  (activeTaskList.isEmpty()) {
+            System.out.println("There are no active tasks");
+        }
+        for (Task task : activeTaskList) {
+            System.out.println("<---- Task ID " + activeTaskList.indexOf(task) +  " ---->");
+            System.out.println("Title: " + task.getTitle() + "\n"
+                    + "Description: "+task.getDescription() + "\n" +
+                    "Deadline: "+task.getDeadline().toString() + "\n");
+        }
+    }
+
+    public static void removeTask(String id) {
         int indexID = Integer.parseInt(id);
         if (!activeTaskList.isEmpty()) {
             activeTaskList.remove(indexID);
             System.out.println("Task " + indexID + " has been removed");
         }
         else {
-            return "Error: Task does not exist";
+            System.out.println("Task does not exist! ");
         }
-        return "";
-            }
+    }
+
+    public static void markComplete(String id) {
+        int indexID = Integer.parseInt(id);
+        if (!activeTaskList.isEmpty()) {
+            Task task = activeTaskList.get(indexID);
+            task.setComplete(true);
+            completedTaskList.add(task);
+            activeTaskList.remove(indexID);
+            System.out.println("Task " + indexID + " has been marked completed");
+        }
+        else {
+            System.out.println("Task does not exist! ");
+        }
+
+    }
 
     public static LocalDate deadlineEntry(Scanner input) {
         System.out.println("Enter task deadline (YYYY-MM-DD): ");
@@ -91,6 +105,28 @@ public class TaskManager {
     public static boolean yesOrNo (Scanner input) {
         System.out.println("1. Yes\n2. No");
         return input.nextLine().equals("1");
+
+    }
+
+    public static void saveTasks() throws IOException {
+        try {
+            FileWriter fw = new FileWriter("C:\\Users\\rhyst\\IdeaProjects\\UniMate\\src\\main\\resources\\tasks.txt");
+            int totalSize = activeTaskList.size() + completedTaskList.size();
+            for (int i = 0; i < totalSize; i++) {
+                if (!activeTaskList.isEmpty()) {
+                    fw.write(activeTaskList.get(i).toString());
+                    fw.write("\n");
+                }
+                else if (!completedTaskList.isEmpty()) {
+                    fw.write(completedTaskList.get(i).toString());
+                    fw.write("\n");
+                }
+            }
+            fw.close();
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
 
     }
 

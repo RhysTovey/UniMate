@@ -1,3 +1,5 @@
+import java.io.File;
+import java.io.FileReader;
 import java.util.Scanner;
 
 public class Main {
@@ -20,11 +22,7 @@ public class Main {
                     System.out.println(displayRemoveMenu());
                     TaskManager.printTaskList();
                     System.out.println("Please enter the task ID you want to remove: ");
-                    String taskID = input.nextLine();
-                    TaskManager.removeTask(taskID);
-
-
-
+                    TaskManager.removeTask(input.nextLine());
                     break;
 
                 case "3" :
@@ -33,8 +31,12 @@ public class Main {
                     break;
 
                 case "4" :
-                    System.out.println("*** All Completed Tasks ***");
-                    System.out.println(TaskManager.getCompletedTaskList());
+                    System.out.println("*** Printing active tasks ***");
+                    TaskManager.printTaskList();
+                    System.out.println("Please enter the task ID you want to mark as complete ");
+                    TaskManager.markComplete(input.nextLine());
+
+
                     break;
 
                 case "0" :
