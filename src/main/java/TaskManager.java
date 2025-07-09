@@ -1,13 +1,7 @@
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
-import java.util.StringTokenizer;
+import java.util.*;
 
 public class TaskManager {
     private static List<Task> activeTaskList = new ArrayList<>();
@@ -108,28 +102,28 @@ public class TaskManager {
 
     }
 
-    public static void saveTasks() throws IOException {
-        try {
-            FileWriter fw = new FileWriter("C:\\Users\\rhyst\\IdeaProjects\\UniMate\\src\\main\\resources\\tasks.txt");
-            int totalSize = activeTaskList.size() + completedTaskList.size();
-            for (int i = 0; i < totalSize; i++) {
-                if (!activeTaskList.isEmpty()) {
-                    fw.write(activeTaskList.get(i).toString());
-                    fw.write("\n");
-                }
-                else if (!completedTaskList.isEmpty()) {
-                    fw.write(completedTaskList.get(i).toString());
-                    fw.write("\n");
-                }
-            }
-            fw.close();
+    public static void saveTasks(){
+        try (ObjectOutputStream output = new ObjectOutputStream(new FileOutputStream("C:\\Users\\rhyst\\IdeaProjects\\UniMate\\src\\main\\resources\\tasks.dat"))) {
+            output.writeObject(activeTaskList);
+            System.out.println("Tasks saved!");
         }
         catch (IOException e) {
             e.printStackTrace();
         }
-
     }
 
+    public static void readTasks() {
+        try (ObjectInputStream input = new ObjectInputStream(new FileInputStream("C:\\Users\\rhyst\\IdeaProjects\\UniMate\\src\\main\\resources\\tasks.dat"))) {
+            activeTaskList = (ArrayList<Task>) input.readObject();
+            for(Task task : activeTaskList){
+                System.out.println(task);
+            }
+        }
+        catch (ClassCastException | IOException | ClassNotFoundException e) {
+            throw new ClassCastException(e.getMessage());
+        }
 
+
+    }
 
 }

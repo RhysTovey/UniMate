@@ -1,9 +1,11 @@
 import java.io.File;
 import java.io.FileReader;
+import java.io.IOException;
 import java.util.Scanner;
 
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
+        TaskManager.readTasks();
         Scanner input = new Scanner(System.in);
         // While flag is true
         boolean flag = true;
@@ -35,7 +37,6 @@ public class Main {
                     TaskManager.printTaskList();
                     System.out.println("Please enter the task ID you want to mark as complete ");
                     TaskManager.markComplete(input.nextLine());
-
 
                     break;
 

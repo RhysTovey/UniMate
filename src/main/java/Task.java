@@ -3,13 +3,15 @@ import java.io.*;
 import java.time.LocalDate;
 
 
-public class Task {
+public class Task implements Serializable {
     private String title;
     private String description;
     private LocalDate date;
     private LocalDate deadline;
     private boolean repeats;
     private boolean isComplete;
+    @Serial
+    private static final long serialVersionUID = 1L;
 
     public Task(String title, String description, LocalDate date, LocalDate deadline, boolean repeats, boolean isComplete) {
         this.title = title;
@@ -62,6 +64,7 @@ public class Task {
     public void setComplete(boolean complete) {
         isComplete = complete;
     }
+
     @Override
     public String toString() {
         String builder = "Task: " + getTitle() + "\n" +
