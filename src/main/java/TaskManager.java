@@ -20,9 +20,10 @@ public class TaskManager {
 
     public static void printTaskList() {
         for (Task task : activeTaskList) {
-            System.out.println("<---- Task ---->");
-            System.out.println(task.getTitle() + "\n"
-            + task.getDescription() + "\n");
+            System.out.println("<---- Task ID " + activeTaskList.indexOf(task) +  " ---->");
+            System.out.println("Title: " + task.getTitle() + "\n"
+            + "Description: "+task.getDescription() + "\n" +
+                    "Deadline: "+task.getDeadline().toString() + "\n");
         }
 
 
@@ -62,6 +63,18 @@ public class TaskManager {
         }
 
     }
+
+    public static String removeTask(String id) {
+        int indexID = Integer.parseInt(id);
+        if (!activeTaskList.isEmpty()) {
+            activeTaskList.remove(indexID);
+            System.out.println("Task " + indexID + " has been removed");
+        }
+        else {
+            return "Error: Task does not exist";
+        }
+        return "";
+            }
 
     public static LocalDate deadlineEntry(Scanner input) {
         System.out.println("Enter task deadline (YYYY-MM-DD): ");

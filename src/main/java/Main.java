@@ -19,7 +19,9 @@ public class Main {
                 case "2" :
                     System.out.println(displayRemoveMenu());
                     TaskManager.printTaskList();
-
+                    System.out.println("Please enter the task ID you want to remove: ");
+                    String taskID = input.nextLine();
+                    TaskManager.removeTask(taskID);
 
 
 
@@ -27,7 +29,7 @@ public class Main {
 
                 case "3" :
                     System.out.println("*** All Active Tasks ***");
-                    System.out.println(TaskManager.getActiveTaskList());
+                    TaskManager.printTaskList();
                     break;
 
                 case "4" :
@@ -47,12 +49,13 @@ public class Main {
     }
 
     public static String displayMainMenu() {
-        return " *** Main Menu *** \n" +
-                "1: Add Task " + "\n" +
-                "2: Remove Task " + "\n" +
-                "3: Display Tasks " + "\n" +
-                "4: Mark Task Complete " + "\n" +
-                "0: Exit";
+        return """
+                 *** Main Menu ***\s
+                1: Add Task\s
+                2: Remove Task\s
+                3: Display Tasks\s
+                4: Mark Task Complete\s
+                0: Exit""";
     }
 
     public static String displayAddMenu(){
