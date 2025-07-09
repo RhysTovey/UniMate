@@ -2,12 +2,14 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        System.out.println(displayMainMenu());
         Scanner input = new Scanner(System.in);
         // While flag is true
         boolean flag = true;
 
+        // Boolean enabled menu system
+        // Switch statements to control menu selection
         while (flag) {
+            System.out.println(displayMainMenu());
             System.out.print(">> ");
             switch (input.nextLine()) {
                 case "1" :
@@ -15,12 +17,22 @@ public class Main {
                     TaskManager.createTask();
                     break;
                 case "2" :
+                    System.out.println(displayRemoveMenu());
+                    TaskManager.printTaskList();
+
+
+
+
                     break;
 
                 case "3" :
+                    System.out.println("*** All Active Tasks ***");
+                    System.out.println(TaskManager.getActiveTaskList());
                     break;
 
                 case "4" :
+                    System.out.println("*** All Completed Tasks ***");
+                    System.out.println(TaskManager.getCompletedTaskList());
                     break;
 
                 case "0" :
@@ -32,27 +44,23 @@ public class Main {
             }
 
         }
-
-
-
-
     }
 
     public static String displayMainMenu() {
-        StringBuilder menu = new StringBuilder();
-        menu.append(" *** Main Menu *** \n");
-        menu.append("1: Add Task " + "\n");
-        menu.append("2: Remove Task " + "\n");
-        menu.append("3: Display Tasks " + "\n");
-        menu.append("4: Mark Task Complete " + "\n");
-        menu.append("0: Exit");
-        return menu.toString();
+        return " *** Main Menu *** \n" +
+                "1: Add Task " + "\n" +
+                "2: Remove Task " + "\n" +
+                "3: Display Tasks " + "\n" +
+                "4: Mark Task Complete " + "\n" +
+                "0: Exit";
     }
 
     public static String displayAddMenu(){
-        StringBuilder menu = new StringBuilder();
-        menu.append("*** Add Tasks ***");
-        return menu.toString();
+        return "*** Add Tasks ***";
+    }
+
+    public static String displayRemoveMenu(){
+        return "*** Remove Tasks ***";
     }
 
 

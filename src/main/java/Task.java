@@ -7,7 +7,7 @@ public class Task {
     private String title;
     private String description;
     private LocalDate date;
-    private LocalDate  deadline;
+    private LocalDate deadline;
     private boolean repeats;
     private boolean isComplete;
 
@@ -20,13 +20,18 @@ public class Task {
         this.isComplete = isComplete;
     }
 
+    /*
+
+        Getters and Setters for Task IV's
+
+     */
+
     public String getTitle() {
         return title;
     }
     public void setTitle(String title) {
         this.title = title;
     }
-
     public String getDescription() {
         return description;
     }
@@ -59,14 +64,13 @@ public class Task {
     }
     @Override
     public String toString() {
-        StringBuilder builder = new StringBuilder();
-        builder.append("Task: " + getTitle() + "\n");
-        builder.append("Description: " + getDescription() + "\n");
-        builder.append("Date: " + getDate() + "\n");
-        builder.append("Deadline: " + getDeadline() + "\n");
-        builder.append("Repeats: " + isRepeats() + "\n");
-        builder.append("Complete: " + isComplete() + "\n");
-        return builder.toString();
+        String builder = "Task: " + getTitle() + "\n" +
+                "Description: " + getDescription() + "\n" +
+                "Date: " + getDate() + "\n" +
+                "Deadline: " + getDeadline() + "\n" +
+                "Repeats: " + isRepeats() + "\n" +
+                "Complete: " + isComplete() + "\n";
+        return builder;
     }
 
 
