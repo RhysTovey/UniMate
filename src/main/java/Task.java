@@ -5,7 +5,7 @@ import java.time.LocalDate;
 /**
  * Task Class
  * To create Task objects for use within the TaskManager
- * Implements Serializable to read/write into/from tasks.dat
+ * Implements Serializable to read/write into/from activetasks.dat
  */
 
 
@@ -14,17 +14,15 @@ public class Task implements Serializable {
     private String description;
     private LocalDate date;
     private LocalDate deadline;
-    private boolean repeats;
     private boolean isComplete;
     @Serial
     private static final long serialVersionUID = 1L;
 
-    public Task(String title, String description, LocalDate date, LocalDate deadline, boolean repeats, boolean isComplete) {
+    public Task(String title, String description, LocalDate date, LocalDate deadline, boolean isComplete) {
         this.title = title;
         this.description = description;
         this.date = date;
         this.deadline = deadline;
-        this.repeats = repeats;
         this.isComplete = isComplete;
     }
 
@@ -56,12 +54,6 @@ public class Task implements Serializable {
     public void setDeadline(LocalDate deadline) {
         this.deadline = deadline;
     }
-    public boolean isRepeats() {
-        return repeats;
-    }
-    public void setRepeats(boolean repeats) {
-        this.repeats = repeats;
-    }
     public boolean isComplete() {
         return isComplete;
     }
@@ -75,7 +67,6 @@ public class Task implements Serializable {
                 "Description: " + getDescription() + "\n" +
                 "Date: " + getDate() + "\n" +
                 "Deadline: " + getDeadline() + "\n" +
-                "Repeats: " + isRepeats() + "\n" +
                 "Complete: " + isComplete() + "\n";
         return builder;
     }
