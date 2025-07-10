@@ -2,6 +2,12 @@ import java.util.*;
 import java.io.*;
 import java.time.LocalDate;
 
+/**
+ * Task Class
+ * To create Task objects for use within the TaskManager
+ * Implements Serializable to read/write into/from tasks.dat
+ */
+
 
 public class Task implements Serializable {
     private String title;
@@ -23,9 +29,7 @@ public class Task implements Serializable {
     }
 
     /*
-
         Getters and Setters for Task IV's
-
      */
 
     public String getTitle() {
