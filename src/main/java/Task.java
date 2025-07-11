@@ -21,6 +21,7 @@ public class Task implements Serializable {
     public Task(String title, String description, LocalDate date, LocalDate deadline, boolean isComplete) {
         this.title = title;
         this.description = description;
+        // Rename date
         this.date = date;
         this.deadline = deadline;
         this.isComplete = isComplete;
@@ -60,6 +61,8 @@ public class Task implements Serializable {
     public void setComplete(boolean complete) {
         isComplete = complete;
     }
+
+    // Use append for stringBuilder
 
     @Override
     public String toString() {

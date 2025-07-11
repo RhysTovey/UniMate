@@ -49,16 +49,16 @@ public class TaskManager {
 
     /**
      * printTaskList
-     * @param input
      * Neatly prints task list for user, showing title, description deadline and ID
      */
 
-    public static void printActiveTaskList(String input) {
+    public static void printActiveTaskList() throws InterruptedException {
         if  (activeTaskList.isEmpty()) {
             System.out.println("No active tasks found!");
         }
-        if (input.equals("2") || input.equals("3") || input.equals("4")) {
+        if (!activeTaskList.isEmpty()) {
             for (Task task : activeTaskList) {
+                Thread.sleep(1000);
                 System.out.println("<---- Task ID " + activeTaskList.indexOf(task) +  " ---->");
                 System.out.println("Title: " + task.getTitle() + "\n"
                         + "Description: "+task.getDescription() + "\n" +
@@ -183,7 +183,7 @@ public class TaskManager {
      */
 
     public static void saveTasks() {
-        try (ObjectOutputStream output = new ObjectOutputStream(new FileOutputStream("C:\\Users\\rhyst\\IdeaProjects\\UniMate\\src\\main\\resources\\activetasks.dat"))) {
+        try (ObjectOutputStream output = new ObjectOutputStream(new FileOutputStream("src/main/resources/activetasks.dat"))) {
             output.writeObject(activeTaskList);
         }
         catch (IOException e) {
@@ -202,7 +202,7 @@ public class TaskManager {
 
     public static void readTasks() {
         try (ObjectInputStream input = new ObjectInputStream(
-                new FileInputStream("C:\\Users\\rhyst\\IdeaProjects\\UniMate\\src\\main\\resources\\activetasks.dat"))) {
+                new FileInputStream("src/main/resources/activetasks.dat"))) {
             activeTaskList = (ArrayList<Task>) input.readObject();
         }
         catch (ClassCastException | IOException | ClassNotFoundException e) {

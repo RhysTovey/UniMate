@@ -3,6 +3,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Objects;
 import java.util.Scanner;
 
 /**
@@ -24,10 +25,12 @@ public class Main {
             // Loops to display mainmenu
             System.out.println(displayMainMenu());
             System.out.print(">> ");
-            String var;
-            switch (var = input.nextLine()) {
+            String choice = input.nextLine();
+            String answer;
+            switch (choice) {
                 // Calls to create task
                 case "1" :
+                    // Prompt user for Input to fill in each param to create a new task
                     System.out.println(displayAddMenu());
                     System.out.println("Enter task name: ");
                     String title = input.nextLine();
@@ -38,9 +41,6 @@ public class Main {
                     LocalDate deadline = TaskManager.deadlineEntry(input);
                     System.out.println("Will this task repeat? (Yes/No) ");
                     boolean repeats = TaskManager.yesOrNo(input);
-                    if (repeats) {
-
-                    }
                     System.out.println("Have you already completed this task? (Yes/No) ");
                     boolean completed = TaskManager.yesOrNo(input);
                     TaskManager.createTask(title, description, date, deadline, completed);
@@ -48,28 +48,68 @@ public class Main {
                 case "2" :
                     // Enables user to remove a task given by Task ID displayed in task list
                     System.out.println(displayRemoveMenu());
-                    TaskManager.printActiveTaskList(var);
+                    TaskManager.printActiveTaskList();
                     System.out.println("Please enter the task ID you want to remove: ");
-                    TaskManager.removeTask(input.nextLine());
+                    System.out.println("Or type 'back' to return to main menu");
+                    System.out.print(">> ");
+                    answer = input.nextLine();
+                    try {
+                        if (answer.equalsIgnoreCase("back")) {
+                            break;
+                        }
+                        TaskManager.removeTask(answer);
+                    }
+                    catch (NumberFormatException e) {
+                        System.out.println("Invalid input, redirecting to main menu");
+                        Thread.sleep(1500);
+                        break;
+                    }
+
                     break;
 
                 case "3" :
                     // Displays all active tasks
                     System.out.println("*** All Active Tasks ***");
-                    TaskManager.printActiveTaskList(var);
+                    TaskManager.printActiveTaskList();
+                    System.out.println("Press 0 to return to main menu");
+                    System.out.print(">> ");
+                    answer = input.nextLine();
+                    try {
+                        if (Objects.equals(answer, "0")){
+                            break;
+                        }
+                    }
+                    catch (NumberFormatException e) {
+                        System.out.println("Invalid input");
+                    }
                     break;
 
                 case "4" :
                     // Enables user to mark task as complete
                     System.out.println("*** Printing active tasks ***");
-                    TaskManager.printActiveTaskList(var);
+                    TaskManager.printActiveTaskList();
                     System.out.println("Please enter the task ID you want to mark as complete ");
-                    TaskManager.markComplete(input.nextLine());
+                    System.out.println("Or type 'back' to return to main menu");
+                    System.out.print(">> ");
+                    answer = input.nextLine();
+                    //Choice to return to main menu
+
+                    try {
+                        if (answer.equalsIgnoreCase("back")) {
+                            break;
+                        }
+                        TaskManager.markComplete(answer);
+                    }
+                    catch (NumberFormatException e) {
+                        System.out.println("Invalid input, redirecting to main menu");
+                        Thread.sleep(1500);
+                    }
                     break;
+
 
                 case "5" :
                     System.out.println("*** Printing completed tasks ***");
-                    TaskManager.printCompletedTaskList(var);
+                    TaskManager.printCompletedTaskList(choice);
                     break;
 
                 case "0" :
