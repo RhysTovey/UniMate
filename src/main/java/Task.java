@@ -9,20 +9,19 @@ import java.time.LocalDate;
  */
 
 
-public class Task implements Serializable {
+public class Task implements Serializable, Comparable<Task> {
     private String title;
     private String description;
-    private LocalDate date;
+    private LocalDate startDate;
     private LocalDate deadline;
     private boolean isComplete;
     @Serial
     private static final long serialVersionUID = 1L;
 
-    public Task(String title, String description, LocalDate date, LocalDate deadline, boolean isComplete) {
+    public Task(String title, String description, LocalDate startDate, LocalDate deadline, boolean isComplete) {
         this.title = title;
         this.description = description;
-        // Rename date
-        this.date = date;
+        this.startDate = startDate;
         this.deadline = deadline;
         this.isComplete = isComplete;
     }
@@ -44,10 +43,10 @@ public class Task implements Serializable {
         this.description = description;
     }
     public LocalDate getDate() {
-        return date;
+        return startDate;
     }
-    public void setDate(LocalDate date) {
-        this.date = date;
+    public void setStartDate(LocalDate startDate) {
+        this.startDate = startDate;
     }
     public LocalDate getDeadline() {
         return deadline;
@@ -62,19 +61,27 @@ public class Task implements Serializable {
         isComplete = complete;
     }
 
-    // Use append for stringBuilder
+    /**
+     *
+     * @return neatly arranged String of variables
+     */
 
     @Override
     public String toString() {
-        String builder = "Task: " + getTitle() + "\n" +
-                "Description: " + getDescription() + "\n" +
-                "Date: " + getDate() + "\n" +
-                "Deadline: " + getDeadline() + "\n" +
-                "Complete: " + isComplete() + "\n";
-        return builder;
+        return "Task: " + title + "\n" +
+                "Description: " + description + "\n" +
+                "Date: " + startDate + "\n" +
+                "Deadline: " + deadline + "\n" +
+                "IsComplete: " + isComplete + "\n";
     }
 
 
-
-
+    /**
+     * @param o the object to be compared.
+     * @return
+     */
+    @Override
+    public int compareTo(Task o) {
+        return this.deadline.compareTo(o.deadline);
+    }
 }

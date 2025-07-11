@@ -32,18 +32,19 @@ public class Main {
                 case "1" :
                     // Prompt user for Input to fill in each param to create a new task
                     System.out.println(displayAddMenu());
-                    System.out.println("Enter task name: ");
+                    System.out.print("Enter task name: " + "\n" + ">> ");
                     String title = input.nextLine();
-                    System.out.println("Enter task description: ");
+                    System.out.print("Enter task description: " + "\n" + ">> ");
                     String description = input.nextLine();
-                    LocalDate date = LocalDate.now();
-                    System.out.println("Task created at: " + date.getDayOfMonth() + "-" + date.getMonthValue() + "-" + date.getYear());
+                    LocalDate startDate = LocalDate.now();
+                    System.out.println("Task created at: "
+                            + startDate.getDayOfMonth() + "-" + startDate.getMonthValue() + "-" + startDate.getYear());
                     LocalDate deadline = TaskManager.deadlineEntry(input);
-                    System.out.println("Will this task repeat? (Yes/No) ");
+                    System.out.print("Will this task repeat? (Yes/No) " + "\n" + ">> ");
                     boolean repeats = TaskManager.yesOrNo(input);
-                    System.out.println("Have you already completed this task? (Yes/No) ");
+                    System.out.print("Have you already completed this task? (Yes/No) " + "\n" + ">> ");
                     boolean completed = TaskManager.yesOrNo(input);
-                    TaskManager.createTask(title, description, date, deadline, completed);
+                    TaskManager.createTask(title, description, startDate, deadline, completed);
                     break;
                 case "2" :
                     // Enables user to remove a task given by Task ID displayed in task list

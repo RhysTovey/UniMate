@@ -124,7 +124,6 @@ public class TaskManager {
         else {
             System.out.println("Task does not exist! ");
         }
-
     }
 
     /**
@@ -142,6 +141,7 @@ public class TaskManager {
             System.out.println("Enter task deadline (YYYY-MM-DD): ");
             try {
                 String dl = input.nextLine();
+                System.out.println(">> ");
                 date = LocalDate.parse(dl);
             }
             catch (DateTimeParseException e) {
@@ -160,19 +160,13 @@ public class TaskManager {
      */
 
     public static boolean yesOrNo (Scanner input) {
-        Boolean repeat = null;
-        String result = input.nextLine();
-
-        while (repeat == null) {
-            if (result.equalsIgnoreCase("yes")) {
-                repeat = true;
-            } else if (result.equalsIgnoreCase("no")) {
-                repeat = false;
-            } else {
-                System.out.println("Invalid input");
-            }
+        while (true) {
+            String result = input.nextLine();
+            System.out.println(">> ");
+            if (result.equalsIgnoreCase("yes")) {return true;}
+            if (result.equalsIgnoreCase("no")) {return false;}
+            System.out.println("Invalid input - Please try again");
         }
-        return repeat;
 
     }
 
