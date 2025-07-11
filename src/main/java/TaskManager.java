@@ -32,6 +32,8 @@ public class TaskManager {
         try {
             Task newTask = new Task(title, description, date, deadline, completed);
             System.out.println("New task created: " + "\n" + newTask);
+            System.out.println("Returning to main menu");
+            Thread.sleep(1000);
             if (completed) {
                 completedTaskList.add(newTask);
             }
@@ -91,13 +93,17 @@ public class TaskManager {
      * removeTask
      * Checks if Tasks exist, if so, tasks are displayed and the user can type the ID and delete
      */
-    public static void removeTask(String id) {
+    public static void removeTask(String id) throws InterruptedException {
         // Take string ID and parse to Int
         int indexID = Integer.parseInt(id);
         if (!activeTaskList.isEmpty()) {
             // Removes from corresponding index in array
+            System.out.println("Task " + indexID + " with the following details has been removed");
+            Thread.sleep(1500);
+            System.out.println(activeTaskList.get(indexID));
+            System.out.println("Returning to main menu");
+            Thread.sleep(1000);
             activeTaskList.remove(indexID);
-            System.out.println("Task " + indexID + " has been removed");
             saveTasks();
         }
         else {
@@ -120,6 +126,7 @@ public class TaskManager {
             completedTaskList.add(task);
             activeTaskList.remove(indexID);
             System.out.println("Task " + indexID + " has been marked completed");
+            saveTasks();
         }
         else {
             System.out.println("Task does not exist! ");
@@ -141,7 +148,7 @@ public class TaskManager {
             System.out.println("Enter task deadline (YYYY-MM-DD): ");
             try {
                 String dl = input.nextLine();
-                System.out.println(">> ");
+                System.out.print(">> ");
                 date = LocalDate.parse(dl);
             }
             catch (DateTimeParseException e) {
@@ -161,6 +168,7 @@ public class TaskManager {
 
     public static boolean yesOrNo (Scanner input) {
         while (true) {
+            // Take scanner input and return bool dependent on input
             String result = input.nextLine();
             System.out.println(">> ");
             if (result.equalsIgnoreCase("yes")) {return true;}
@@ -177,13 +185,22 @@ public class TaskManager {
      */
 
     public static void saveTasks() {
-        try (ObjectOutputStream output = new ObjectOutputStream(new FileOutputStream("src/main/resources/activetasks.dat"))) {
-            output.writeObject(activeTaskList);
+        try {
+            // Establish Output streams for both files, open -> write -> close
+            ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("src/main/resources/activetasks.dat"));
+            oos.writeObject(activeTaskList);
+            oos.close();
+
+            ObjectOutputStream oos2 = new ObjectOutputStream(new FileOutputStream("src/main/resources/completedtasks.dat"));
+            oos2.writeObject(completedTaskList);
+            oos2.close();
+
         }
         catch (IOException e) {
             e.printStackTrace();
         }
     }
+
     /**
      * readTasks()
      * Reads back in Serialized tasks using ObjectInputStream, populates activeTaskList with cast of inputStream objects
@@ -195,14 +212,48 @@ public class TaskManager {
      */
 
     public static void readTasks() {
-        try (ObjectInputStream input = new ObjectInputStream(
-                new FileInputStream("src/main/resources/activetasks.dat"))) {
-            activeTaskList = (ArrayList<Task>) input.readObject();
-        }
-        catch (ClassCastException | IOException | ClassNotFoundException e) {
-            throw new ClassCastException(e.getMessage());
-        }
+        while (true) {
+            // Try to establish input stream and readObjects within - Break and continue if found
+            try {
+                ObjectInputStream input = new ObjectInputStream(
+                        new FileInputStream("src/main/resources/activetasks.dat"));
 
+                activeTaskList = (ArrayList<Task>) input.readObject();
+                input.close();
+                break;
+            }
+            // Catches EOF exception which arises if file is empty, breaks and continues in program
+            catch (EOFException e) {
+                System.out.println("EOF Exception - No data to load");
+                break;
+            }
+            catch (IOException | ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public static void readCompletedTasks() {
+        while (true) {
+            // Try to establish input stream and readObjects within - Break and continue if found
+            try {
+                ObjectInputStream fileInput = new ObjectInputStream(
+                        new FileInputStream("src/main/resources/completedtasks.dat"));
+
+                completedTaskList = (ArrayList<Task>) fileInput.readObject();
+                fileInput.close();
+                break;
+            }
+            // Catches EOF exception which arises if file is empty, breaks and continues in program
+            catch (EOFException e) {
+                System.out.println("EOF Exception - No data to load");
+                break;
+            }
+            catch (IOException | ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+
+        }
     }
 
 }

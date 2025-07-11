@@ -15,6 +15,7 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) throws InterruptedException {
         TaskManager.readTasks();
+        TaskManager.readCompletedTasks();
         Scanner input = new Scanner(System.in);
         // While flag is true
         boolean flag = true;
@@ -40,9 +41,9 @@ public class Main {
                     System.out.println("Task created at: "
                             + startDate.getDayOfMonth() + "-" + startDate.getMonthValue() + "-" + startDate.getYear());
                     LocalDate deadline = TaskManager.deadlineEntry(input);
-                    System.out.print("Will this task repeat? (Yes/No) " + "\n" + ">> ");
+                    System.out.print("Will this task repeat? (Yes/No)");
                     boolean repeats = TaskManager.yesOrNo(input);
-                    System.out.print("Have you already completed this task? (Yes/No) " + "\n" + ">> ");
+                    System.out.print("Have you already completed this task? (Yes/No) ");
                     boolean completed = TaskManager.yesOrNo(input);
                     TaskManager.createTask(title, description, startDate, deadline, completed);
                     break;
