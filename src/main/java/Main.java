@@ -3,6 +3,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.Objects;
 import java.util.Scanner;
 
@@ -40,12 +41,33 @@ public class Main {
                     LocalDate startDate = LocalDate.now();
                     System.out.println("Task created at: "
                             + startDate.getDayOfMonth() + "-" + startDate.getMonthValue() + "-" + startDate.getYear());
-                    LocalDate deadline = TaskManager.deadlineEntry(input);
-                    System.out.print("Will this task repeat? (Yes/No)");
+                    System.out.println("Enter task deadline (YYYY-MM-DD): ");
+                    LocalDate deadline = TaskManager.dateEntry(input);
+                    System.out.println("Will this task repeat? (Yes/No)");
                     boolean repeats = TaskManager.yesOrNo(input);
-                    System.out.print("Have you already completed this task? (Yes/No) ");
-                    boolean completed = TaskManager.yesOrNo(input);
-                    TaskManager.createTask(title, description, startDate, deadline, completed);
+                    if (repeats) {
+                        RecurrenceType recurrenceType = null;
+                        System.out.println("How often would you like this task to repeat repeat?");
+                        System.out.println(displayRecurrenceOptions());
+                        System.out.print(">> ");
+                        try {
+                            recurrenceType = RecurrenceType.valueOf(input.nextLine().trim().toUpperCase());
+                        }
+                        catch (IllegalArgumentException e) {
+                            System.out.println("Please enter a valid Recurrence Type");
+                        }
+                        System.out.println("Enter the end date for the task: ");
+                        LocalDate endDate = TaskManager.dateEntry(input);
+                        boolean complete = false;
+
+                        TaskManager.createRecurringTask(title, description, startDate, deadline, complete, recurrenceType, endDate);
+                    }
+                    else {
+                        System.out.print("Have you already completed this task? (Yes/No) ");
+                        boolean completed = TaskManager.yesOrNo(input);
+                        TaskManager.createTask(title, description, startDate, deadline, completed);
+                    }
+
                     break;
                 case "2" :
                     // Enables user to remove a task given by Task ID displayed in task list
@@ -73,17 +95,10 @@ public class Main {
                     // Displays all active tasks
                     System.out.println("*** All Active Tasks ***");
                     TaskManager.printActiveTaskList();
-                    System.out.println("Press 0 to return to main menu");
+                    System.out.println("Type 'back' to return to main menu");
                     System.out.print(">> ");
                     answer = input.nextLine();
-                    try {
-                        if (Objects.equals(answer, "0")){
-                            break;
-                        }
-                    }
-                    catch (NumberFormatException e) {
-                        System.out.println("Invalid input");
-                    }
+                    returnToMenu(answer);
                     break;
 
                 case "4" :
@@ -112,6 +127,9 @@ public class Main {
                 case "5" :
                     System.out.println("*** Printing completed tasks ***");
                     TaskManager.printCompletedTaskList(choice);
+                    System.out.print("Type 'back' to return to main menu" + "\n" + ">> ");
+                    answer = input.nextLine();
+                    returnToMenu(answer);
                     break;
 
                 case "0" :
@@ -143,6 +161,32 @@ public class Main {
 
     public static String displayRemoveMenu(){
         return "*** Remove Tasks ***";
+    }
+
+    public static String displayRecurrenceOptions() {
+        return "1. Daily " + "\n" +
+                "2. Weekly " + "\n" +
+                "3. Monthly " + "\n" +
+                 "4. Yearly ";
+    }
+
+    public static void returnToMenu(String input) {
+        while (true) {
+            try {
+                if  (input.equalsIgnoreCase("back")) {
+                    break;
+                }
+                else {
+                    System.out.println();
+                }
+            }
+            catch (NumberFormatException e) {
+                System.out.println("Invalid input, redirecting to main menu");
+            }
+
+        }
+
+
     }
 
 
