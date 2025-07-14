@@ -51,8 +51,8 @@ public class Task implements Serializable, Comparable<Task> {
     public LocalDate getDeadline() {
         return deadline;
     }
-    public void setDeadline(LocalDate deadline) {
-        this.deadline = deadline;
+    public LocalDate setDeadline(LocalDate deadline) {
+        return this.deadline = deadline;
     }
     public boolean isComplete() {
         return isComplete;

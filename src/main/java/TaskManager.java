@@ -1,5 +1,6 @@
 import java.io.*;
 import java.time.LocalDate;
+import java.time.chrono.ChronoLocalDate;
 import java.time.format.DateTimeParseException;
 import java.util.*;
 
@@ -59,11 +60,7 @@ public class TaskManager {
         catch (Exception e) {
             System.out.println("Task failed to create: " + e.getMessage());
         }
-
-
-
     }
-
 
     /**
      * printTaskList
@@ -103,6 +100,51 @@ public class TaskManager {
                         "Deadline: "+task.getDeadline().toString() + "\n");
             }
         }
+    }
+
+    /**
+     * printRecurringTaskList
+     */
+
+    public static void printRecurringTaskList() {
+        if (recurringTaskList.isEmpty()) {
+            System.out.println("No recurring tasks found!");
+        }
+        else {
+            for (RecurringTask task : recurringTaskList) {
+                System.out.println("<---- Task ID " + recurringTaskList.indexOf(task) +  " ---->");
+                System.out.println("Title: " + task.getTitle() + "\n"
+                        + "Description: "+task.getDescription() + "\n"
+                + "Deadline: "+task.getDeadline().toString() + "\n"
+                + "Re-occurs: " + task.getRecurrenceType().toString() + "\n" +
+                        "Next occurrence date: " + task.getNextOccurenceDate().toString() + "\n");
+            }
+        }
+
+
+    }
+
+    public static void checkAndGenerateRecurringTask() {
+        LocalDate today  = LocalDate.now();
+
+        for (RecurringTask task : recurringTaskList) {
+            if (!task.getDeadline().isAfter(ChronoLocalDate.from(today.atTime(23,59)))) {
+                Task newInstance = new Task(
+                        task.getTitle(),
+                        task.getDescription(),
+                        task.getDate(),
+                        task.setDeadline(task.getNextOccurenceDate()),
+                        false
+                );
+            }
+            activeTaskList.add(task);
+            System.out.println("New Task generated");
+
+            task.updateNextOccurenceDate();
+
+        }
+        saveTasks();
+
     }
 
     /**
@@ -293,6 +335,7 @@ public class TaskManager {
             }
             catch (IOException | ClassNotFoundException e) {
                 e.printStackTrace();
+                break;
             }
 
         }

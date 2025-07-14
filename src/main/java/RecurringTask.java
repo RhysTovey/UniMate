@@ -26,7 +26,7 @@ public class RecurringTask extends Task implements Serializable {
         };
     }
 
-    public void updateNextOccurenceDate(LocalDate nextOccurenceDate) {
+    public void updateNextOccurenceDate() {
         this.nextOccurenceDate = calculateRecurrenceDate(nextOccurenceDate);
     }
 

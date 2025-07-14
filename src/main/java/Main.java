@@ -17,6 +17,8 @@ public class Main {
     public static void main(String[] args) throws InterruptedException {
         TaskManager.readTasks();
         TaskManager.readCompletedTasks();
+        TaskManager.readRecurringTasks();
+//        TaskManager.checkAndGenerateRecurringTask();
         Scanner input = new Scanner(System.in);
         // While flag is true
         boolean flag = true;
@@ -132,6 +134,15 @@ public class Main {
                     returnToMenu(answer);
                     break;
 
+
+                case "6" :
+                    System.out.println("*** Printing Recurring tasks ***");
+                    TaskManager.printRecurringTaskList();
+                    System.out.print("Type 'back' to return to main menu" + "\n" + ">> ");
+                    answer = input.nextLine();
+                    returnToMenu(answer);
+                    break;
+
                 case "0" :
                     // Exits program
                     flag = false;
@@ -149,9 +160,10 @@ public class Main {
                  *** Main Menu ***\s
                 1: Add Task\s
                 2: Remove Task\s
-                3: Display Tasks\s
-                4: Mark Task Complete\s
-                5: Display Completed Tasks\s
+                3: Mark Task Complete\s
+                4: View Active Tasks\s
+                5: View Completed Tasks\s
+                6: View Recurring Tasks\s
                 0: Exit""";
     }
 
