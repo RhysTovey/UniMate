@@ -6,6 +6,8 @@ public class RecurringTask extends Task implements Serializable {
     private RecurrenceType recurrenceType;
     private LocalDate endDate;
     private LocalDate nextOccurenceDate;
+    private static final long serialVersionUID = 1L;
+
 
 
     public RecurringTask(String title, String description, LocalDate createdDate, LocalDate deadline, boolean completed,

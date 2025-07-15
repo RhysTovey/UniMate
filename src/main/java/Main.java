@@ -1,10 +1,4 @@
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.Objects;
 import java.util.Scanner;
 
 /**
@@ -15,6 +9,109 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) throws InterruptedException {
+        runCLI();
+
+
+    }
+
+    public static void runCLI() throws InterruptedException {
+        boolean running = true;
+        Scanner input = new Scanner(System.in);
+        System.out.println("Welcome to UniMate");
+//        Thread.sleep(2000);
+        while (running) {
+            System.out.println(displayMainMenu());
+            System.out.print(">> ");
+            switch (input.nextLine()) {
+                case "1":
+                    runTaskManager();
+                    break;
+                case "2":
+                    break;
+                case "3":
+                    break;
+                case "4":
+                    break;
+                case "5":
+                    break;
+                case "6":
+                    break;
+                case "0":
+                    System.out.println("Exiting...");
+                    running = false;
+                    break;
+
+
+                default:
+                    System.out.println("Invalid input. Try again.");
+
+
+
+            }
+        }
+
+    }
+
+
+
+    public static String displayMainMenu() {
+        return """
+                 ***** Main Menu *****\s
+                1: Task Manager \s
+                2: Journaling \s
+                3: Note Making \s
+                4: Add Modules \s
+                5: Calendar \s
+                6: Study Sessions \s
+                7: Emails \s
+                0: Exit""";
+    }
+
+    public static String displayTaskManager() {
+        return """
+                 *** Task Manager System ***\s
+                1: Add Task\s
+                2: Remove Task\s
+                3: Mark Task Complete\s
+                4: View Active Tasks\s
+                5: View Completed Tasks\s
+                6: View Recurring Tasks\s
+                0: Exit""";
+    }
+
+    public static String displayAddMenu(){
+        return "*** Add Tasks ***";
+    }
+
+    public static String displayRemoveMenu(){
+        return "*** Remove Tasks ***" + "\n" +
+                "1. Active Tasks " + "\n" +
+                "2. Completed Tasks"  + "\n" +
+                "3. Recurring Tasks" + "\n" +
+                "BACK: to return to main menu";
+    }
+
+    public static String displayRecurrenceOptions() {
+        return "1. Daily " + "\n" +
+                "2. Weekly " + "\n" +
+                "3. Monthly " + "\n" +
+                 "4. Yearly ";
+    }
+
+    public static void returnToMenu() {
+        Scanner input = new Scanner(System.in);
+        System.out.print("Type 'back' to return to main menu" + "\n" + ">> ");
+        String answer = input.nextLine();
+        if (answer.equalsIgnoreCase("back")) {
+            System.out.println("Back to main menu");
+        }
+        else {
+            System.out.println("Invalid input. Try again.");
+            returnToMenu();
+        }
+    }
+
+    public static void runTaskManager() throws InterruptedException {
         TaskManager.readTasks();
         TaskManager.readCompletedTasks();
         TaskManager.readRecurringTasks();
@@ -42,7 +139,7 @@ public class Main {
                     String description = input.nextLine();
                     LocalDate startDate = LocalDate.now();
                     System.out.println("Task created at: "
-                            + startDate.getYear() + "-" + startDate.getMonthValue() + "-" + startDate.getYear());
+                            + startDate.getYear() + "-" + startDate.getMonthValue() + "-" + startDate.getDayOfMonth());
                     System.out.println("Enter task deadline (YYYY-MM-DD): ");
                     LocalDate deadline = TaskManager.dateEntry(input);
                     System.out.println("Will this task repeat? (Yes/No)");
@@ -84,44 +181,34 @@ public class Main {
                     // Displays all active tasks
                     System.out.println("*** All Active Tasks ***");
                     TaskManager.printActiveTaskList();
-                    System.out.println("Type 'back' to return to main menu");
-                    System.out.print(">> ");
-                    answer = input.nextLine();
-                    returnToMenu(answer);
+                    returnToMenu();
                     break;
 
                 case "3" :
                     // Enables user to mark task as complete
                     System.out.println("*** Printing active tasks ***");
                     TaskManager.printActiveTaskList();
-                    System.out.println("Please enter the task ID you want to mark as complete ");
-                    System.out.println("Or type 'back' to return to main menu");
-                    System.out.print(">> ");
-                    answer = input.nextLine();
                     //Choice to return to main menu
-                    TaskManager.markComplete(answer);
+                    TaskManager.markComplete();
                     break;
 
 
                 case "5" :
                     System.out.println("*** Printing completed tasks ***");
                     TaskManager.printCompletedTaskList(choice);
-                    System.out.print("Type 'back' to return to main menu" + "\n" + ">> ");
-                    answer = input.nextLine();
-                    returnToMenu(answer);
+                    returnToMenu();
                     break;
 
 
                 case "6" :
                     System.out.println("*** Printing Recurring tasks ***");
                     TaskManager.printRecurringTaskList();
-                    System.out.print("Type 'back' to return to main menu" + "\n" + ">> ");
-                    answer = input.nextLine();
-                    returnToMenu(answer);
+                    returnToMenu();
                     break;
 
                 case "0" :
                     // Exits program
+                    System.out.println("Returning to main menu...");
                     flag = false;
                     break;
 
@@ -131,56 +218,4 @@ public class Main {
 
         }
     }
-
-    public static String displayTaskManager() {
-        return """
-                 *** Task Manager System ***\s
-                1: Add Task\s
-                2: Remove Task\s
-                3: Mark Task Complete\s
-                4: View Active Tasks\s
-                5: View Completed Tasks\s
-                6: View Recurring Tasks\s
-                0: Exit""";
-    }
-
-    public static String displayAddMenu(){
-        return "*** Add Tasks ***";
-    }
-
-    public static String displayRemoveMenu(){
-        return "*** Remove Tasks ***" + "\n" +
-                "1. Active Tasks " + "\n" +
-                "2. Completed Tasks"  + "\n" +
-                "3. Recurring Tasks" + "\n" +
-                "BACK: to return to main menu";
-    }
-
-    public static String displayRecurrenceOptions() {
-        return "1. Daily " + "\n" +
-                "2. Weekly " + "\n" +
-                "3. Monthly " + "\n" +
-                 "4. Yearly ";
-    }
-
-    public static void returnToMenu(String input) {
-        while (true) {
-            try {
-                if  (input.equalsIgnoreCase("back")) {
-                    break;
-                }
-                else {
-                    System.out.println();
-                }
-            }
-            catch (NumberFormatException e) {
-                System.out.println("Invalid input, redirecting to main menu");
-            }
-
-        }
-
-
-    }
-
-
 }

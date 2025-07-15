@@ -237,17 +237,37 @@ public class TaskManager {
      * Takes an ID from user to mark this task as complete, sets complete to true and adds to completedTaskList
      */
 
-    public static void markComplete(String id) {
-        int index  = Integer.parseInt(id);
-        try {
-            activeTaskList.get(index);
+    public static void markComplete() {
+        Scanner input = new Scanner(System.in);
+        System.out.println("Please enter the ID of the task you would like to complete: ");
+        System.out.print(">> ");
+        String answer = input.nextLine();
+        if (answer.equalsIgnoreCase("back")) {
+            System.out.println("Returning to main menu");
         }
-        catch (IndexOutOfBoundsException e) {
-            System.out.println("Please enter a valid task ID");
-        }
-        catch (NumberFormatException e) {
-            System.out.println("Please enter a valid task ID");
-            markComplete(id);
+        else {
+            try {
+                int id = Integer.parseInt(answer);
+                try {
+                    Task task = activeTaskList.get(id);
+                    task.setComplete(true);
+                    activeTaskList.remove(id);
+                    System.out.println(task + "Task marked as complete!");
+                    completedTaskList.add(task);
+                    saveTasks();
+                }
+                catch (IndexOutOfBoundsException e) {
+                    System.out.println(
+                            "/// Error ///" + "\n"
+                            + "Please enter a valid task ID - Try Again");
+                    markComplete();
+                }
+            }
+            catch (NumberFormatException e) {
+                System.out.println("/// Error ///");
+                System.out.println("Input isn't recognised");
+                markComplete();
+            }
         }
 
     }
@@ -351,6 +371,7 @@ public class TaskManager {
             }
             catch (IOException | ClassNotFoundException e) {
                 e.printStackTrace();
+                break;
             }
         }
     }
