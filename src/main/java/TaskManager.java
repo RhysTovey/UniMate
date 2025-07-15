@@ -153,73 +153,17 @@ public class TaskManager {
      * Checks if Tasks exist, if so, tasks are displayed and the user can type the ID and delete
      */
     public static void removeTask(String id) throws InterruptedException {
-        Scanner input = new Scanner(System.in);
         switch (id) {
             case "1":
-                if (!activeTaskList.isEmpty()) {
-                    for (Task task : activeTaskList) {
-                        System.out.println("<---- Task ID " + activeTaskList.indexOf(task) +  " ---->");
-                        System.out.println(task.toString());
-                        break;
-                    }
-                    System.out.println("Please enter the task ID you would like to remove: ");
-                    System.out.print(">> ");
-                    try {
-                        int index = Integer.parseInt(input.nextLine());
-                        activeTaskList.remove(index);
-                        System.out.println("Task successfully removed!");
-                        saveTasks();
-                        break;
-                    }
-                    catch (NumberFormatException e) {
-                        System.out.println("Please enter a valid task ID");
-                        removeTask(id);
-                    }
-
-                }
+                removeTaskHelper(activeTaskList, id);
                 break;
 
             case "2":
-                if (!completedTaskList.isEmpty()) {
-                    for (Task task : completedTaskList) {
-                        System.out.println("<---- Task ID " + completedTaskList.indexOf(task) +  " ---->");
-                        System.out.println(task.toString());
-                    }
-                    System.out.println("Please enter the task ID you would like to remove: ");
-                    System.out.print(">> ");
-                    try {
-                        int index = Integer.parseInt(input.nextLine());
-                        completedTaskList.remove(index);
-                        System.out.println("Task successfully removed!");
-                        saveTasks();
-                        break;
-                    }
-                    catch (NumberFormatException e) {
-                        System.out.println("Please enter a valid task ID");
-                        removeTask(id);
-                    }
-                }
+                removeTaskHelper(completedTaskList, id);
                 break;
 
             case "3":
-                if  (!recurringTaskList.isEmpty()) {
-                    for (RecurringTask task : recurringTaskList) {
-                        System.out.println("<---- Task ID " + recurringTaskList.indexOf(task) +  " ---->");
-                        System.out.println(task.toString());
-                    }
-                    System.out.println("Please enter the task ID you would like to remove: ");
-                    System.out.print(">> ");
-                    try {
-                        int index = Integer.parseInt(input.nextLine());
-                        recurringTaskList.remove(index);
-                        System.out.println("Task successfully removed!");
-                        saveTasks();
-                    }
-                    catch (NumberFormatException e) {
-                        System.out.println("Please enter a valid task ID");
-                        removeTask(id);
-                    }
-                }
+                removeTaskHelper(recurringTaskList, id);
                 break;
 
             case "back" :
@@ -230,6 +174,31 @@ public class TaskManager {
                 System.out.println("Invalid Option, returning to menu");
                 break;
         }
+    }
+
+    private static void removeTaskHelper(List<? extends Task> list, String id) throws InterruptedException {
+        Scanner input = new Scanner(System.in);
+        if (!list.isEmpty()) {
+            for (Task task : list) {
+                System.out.println("<---- Task ID " + list.indexOf(task) +  " ---->");
+                System.out.println(task.toString());
+                break;
+            }
+            System.out.println("Please enter the task ID you would like to remove: ");
+            System.out.print(">> ");
+            try {
+                int index = Integer.parseInt(input.nextLine());
+                list.remove(index);
+                System.out.println("Task successfully removed!");
+                saveTasks();
+            }
+            catch (NumberFormatException e) {
+                System.out.println("Please enter a valid task ID");
+                removeTask(id);
+            }
+
+        }
+        input.close();
     }
 
     /**
