@@ -131,39 +131,8 @@ public class Main {
                 case "1" :
                     // Prompt user for Input to fill in each param to create a new task
                     System.out.println(displayAddMenu());
-                    System.out.print("Enter task name: " + "\n" + ">> ");
-                    String title = input.nextLine();
-                    System.out.print("Enter task description: " + "\n" + ">> ");
-                    String description = input.nextLine();
-                    LocalDate startDate = LocalDate.now();
-                    System.out.println("Task created at: "
-                            + startDate.getYear() + "-" + startDate.getMonthValue() + "-" + startDate.getDayOfMonth());
-                    System.out.println("Enter task deadline (YYYY-MM-DD): ");
-                    LocalDate deadline = TaskManager.dateEntry(input);
-                    System.out.println("Will this task repeat? (Yes/No)");
-                    boolean repeats = TaskManager.yesOrNo(input);
-                    if (repeats) {
-                        RecurrenceType recurrenceType = null;
-                        System.out.println("How often would you like this task to repeat repeat?");
-                        System.out.println(displayRecurrenceOptions());
-                        System.out.print(">> ");
-                        try {
-                            recurrenceType = RecurrenceType.valueOf(input.nextLine().trim().toUpperCase());
-                        }
-                        catch (IllegalArgumentException e) {
-                            System.out.println("Please enter a valid Recurrence Type");
-                        }
-                        System.out.println("Enter the end date for the task: ");
-                        LocalDate endDate = TaskManager.dateEntry(input);
-                        boolean complete = false;
+                    TaskManager.createTaskInput();
 
-                        TaskManager.createRecurringTask(title, description, startDate, deadline, complete, recurrenceType, endDate);
-                    }
-                    else {
-                        System.out.print("Have you already completed this task? (Yes/No) ");
-                        boolean completed = TaskManager.yesOrNo(input);
-                        TaskManager.createTask(title, description, startDate, deadline, completed);
-                    }
 
                     break;
                 case "2" :

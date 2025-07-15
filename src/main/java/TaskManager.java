@@ -9,6 +9,47 @@ public class TaskManager {
     private static List<Task> completedTaskList = new ArrayList<>();
     private static List<RecurringTask> recurringTaskList = new ArrayList<>();
 
+
+
+
+    public static void createTaskInput() {
+        Scanner input = new Scanner(System.in);
+        System.out.print("Enter task name: " + "\n" + ">> ");
+        String title = input.nextLine();
+        System.out.print("Enter task description: " + "\n" + ">> ");
+        String description = input.nextLine();
+        LocalDate startDate = LocalDate.now();
+        System.out.println("Task created at: "
+                + startDate.getYear() + "-" + startDate.getMonthValue() + "-" + startDate.getDayOfMonth());
+        System.out.println("Enter task deadline (YYYY-MM-DD): ");
+        LocalDate deadline = TaskManager.dateEntry(input);
+        System.out.println("Will this task repeat? (Yes/No)");
+        boolean repeats = yesOrNo(input);
+        if (repeats) {
+            RecurrenceType recurrenceType = null;
+            System.out.println("How often would you like this task to repeat repeat?");
+            System.out.println(Main.displayRecurrenceOptions());
+            System.out.print(">> ");
+            try {
+                recurrenceType = RecurrenceType.valueOf(input.nextLine().trim().toUpperCase());
+            }
+            catch (IllegalArgumentException e) {
+                System.out.println("Please enter a valid Recurrence Type");
+            }
+            System.out.println("Enter the end date for the task: ");
+            LocalDate endDate = TaskManager.dateEntry(input);
+            boolean complete = false;
+
+            createRecurringTask(title, description, startDate, deadline, complete, recurrenceType, endDate);
+        }
+        else {
+            System.out.print("Have you already completed this task? (Yes/No) ");
+            boolean completed = TaskManager.yesOrNo(input);
+            createTask(title, description, startDate, deadline, completed);
+        }
+
+    }
+
     /**
      *
      * @param title
@@ -21,8 +62,7 @@ public class TaskManager {
      *
      */
 
-
-    public static void createTask(String title, String description, LocalDate creationDate, LocalDate deadline, boolean completed) {
+    private static void createTask(String title, String description, LocalDate creationDate, LocalDate deadline, boolean completed) {
         try {
             Task newTask = new Task(title, description, creationDate, deadline, completed);
             System.out.println("New task created: " + "\n" + newTask);
@@ -43,7 +83,7 @@ public class TaskManager {
 
     }
 
-    public static void createRecurringTask(String title, String description ,LocalDate creationDate, LocalDate deadline, boolean completed,
+   private static void createRecurringTask(String title, String description ,LocalDate creationDate, LocalDate deadline, boolean completed,
                                            RecurrenceType recurrenceType, LocalDate endDate) {
         try {
             RecurringTask newRecurringTask =
@@ -145,8 +185,6 @@ public class TaskManager {
         }
         saveTasks();
     }
-
-
 
     /**
      * removeTask
@@ -282,7 +320,7 @@ public class TaskManager {
      * Encapsulated logic for multiple re-use
      */
 
-    public static boolean yesOrNo (Scanner input) {
+    private static boolean yesOrNo (Scanner input) {
         while (true) {
             // Take scanner input and return bool dependent on input
             System.out.print(">> ");
