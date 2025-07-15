@@ -1,10 +1,11 @@
-import java.util.*;
+package taskmanagersystem;
+
 import java.io.*;
 import java.time.LocalDate;
 
 /**
- * Task Class
- * To create Task objects for use within the TaskManager
+ * taskmanagersystem.Task Class
+ * To create taskmanagersystem.Task objects for use within the taskmanagersystem.TaskManager
  * Implements Serializable to read/write into/from activetasks.dat
  */
 
@@ -27,7 +28,7 @@ public class Task implements Serializable, Comparable<Task> {
     }
 
     /*
-        Getters and Setters for Task IV's
+        Getters and Setters for taskmanagersystem.Task IV's
      */
 
     public String getTitle() {
@@ -68,7 +69,7 @@ public class Task implements Serializable, Comparable<Task> {
 
     @Override
     public String toString() {
-        return "Task: " + title + "\n" +
+        return "taskmanagersystem.Task: " + title + "\n" +
                 "Description: " + description + "\n" +
                 "Date: " + startDate + "\n" +
                 "Deadline: " + deadline + "\n" +

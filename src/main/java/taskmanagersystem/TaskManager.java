@@ -1,3 +1,5 @@
+package taskmanagersystem;
+
 import java.io.*;
 import java.time.LocalDate;
 import java.time.chrono.ChronoLocalDate;
@@ -19,7 +21,7 @@ public class TaskManager {
         System.out.print("Enter task description: " + "\n" + ">> ");
         String description = input.nextLine();
         LocalDate startDate = LocalDate.now();
-        System.out.println("Task created at: "
+        System.out.println("taskmanagersystem.Task created at: "
                 + startDate.getYear() + "-" + startDate.getMonthValue() + "-" + startDate.getDayOfMonth());
         System.out.println("Enter task deadline (YYYY-MM-DD): ");
         LocalDate deadline = TaskManager.dateEntry(input);
@@ -28,7 +30,7 @@ public class TaskManager {
         if (repeats) {
             RecurrenceType recurrenceType = null;
             System.out.println("How often would you like this task to repeat repeat?");
-            System.out.println(Main.displayRecurrenceOptions());
+            System.out.println(displayRecurrenceOptions());
             System.out.print(">> ");
             try {
                 recurrenceType = RecurrenceType.valueOf(input.nextLine().trim().toUpperCase());
@@ -83,7 +85,7 @@ public class TaskManager {
 
     }
 
-   private static void createRecurringTask(String title, String description ,LocalDate creationDate, LocalDate deadline, boolean completed,
+   private static void createRecurringTask(String title, String description , LocalDate creationDate, LocalDate deadline, boolean completed,
                                            RecurrenceType recurrenceType, LocalDate endDate) {
         try {
             RecurringTask newRecurringTask =
@@ -96,8 +98,15 @@ public class TaskManager {
             saveTasks();
         }
         catch (Exception e) {
-            System.out.println("Task failed to create: " + e.getMessage());
+            System.out.println("taskmanagersystem.Task failed to create: " + e.getMessage());
         }
+    }
+
+    private static String displayRecurrenceOptions() {
+        return "1. Daily " + "\n" +
+                "2. Weekly " + "\n" +
+                "3. Monthly " + "\n" +
+                "4. Yearly ";
     }
 
     /**
@@ -112,7 +121,7 @@ public class TaskManager {
         if (!activeTaskList.isEmpty()) {
             for (Task task : activeTaskList) {
                 Thread.sleep(1000);
-                System.out.println("<---- Task ID " + activeTaskList.indexOf(task) +  " ---->");
+                System.out.println("<---- taskmanagersystem.Task ID " + activeTaskList.indexOf(task) +  " ---->");
                 System.out.println("Title: " + task.getTitle() + "\n"
                         + "Description: "+task.getDescription() + "\n" +
                         "Deadline: "+task.getDeadline().toString() + "\n");
@@ -132,7 +141,7 @@ public class TaskManager {
 
         if (input.equals("5")) {
             for (Task task : completedTaskList) {
-                System.out.println("<---- Task ID " + completedTaskList.indexOf(task) +  " ---->");
+                System.out.println("<---- taskmanagersystem.Task ID " + completedTaskList.indexOf(task) +  " ---->");
                 System.out.println("Title: " + task.getTitle() + "\n"
                         + "Description: "+task.getDescription() + "\n" +
                         "Deadline: "+task.getDeadline().toString() + "\n");
@@ -150,7 +159,7 @@ public class TaskManager {
         }
         else {
             for (RecurringTask task : recurringTaskList) {
-                System.out.println("<---- Task ID " + recurringTaskList.indexOf(task) +  " ---->");
+                System.out.println("<---- taskmanagersystem.Task ID " + recurringTaskList.indexOf(task) +  " ---->");
                 System.out.println("Title: " + task.getTitle() + "\n"
                         + "Description: "+task.getDescription() + "\n"
                 + "Deadline: "+task.getDeadline().toString() + "\n"
@@ -179,7 +188,7 @@ public class TaskManager {
                         false
                 );
                 activeTaskList.add(task);
-                System.out.println("New Task generated");
+                System.out.println("New taskmanagersystem.Task generated");
                 task.updateNextOccurenceDate();
             }
         }
@@ -219,7 +228,7 @@ public class TaskManager {
         Scanner input = new Scanner(System.in);
         if (!list.isEmpty()) {
             for (Task task : list) {
-                System.out.println("<---- Task ID " + list.indexOf(task) +  " ---->");
+                System.out.println("<---- taskmanagersystem.Task ID " + list.indexOf(task) +  " ---->");
                 System.out.println(task.toString());
                 break;
             }
@@ -228,7 +237,7 @@ public class TaskManager {
             try {
                 int index = Integer.parseInt(input.nextLine());
                 list.remove(index);
-                System.out.println("Task successfully removed!");
+                System.out.println("taskmanagersystem.Task successfully removed!");
                 saveTasks();
             }
             catch (NumberFormatException e) {
@@ -267,7 +276,7 @@ public class TaskManager {
                     Task task = activeTaskList.get(id);
                     task.setComplete(true);
                     activeTaskList.remove(id);
-                    System.out.println(task + "Task marked as complete!");
+                    System.out.println(task + "taskmanagersystem.Task marked as complete!");
                     completedTaskList.add(task);
                     saveTasks();
                 }

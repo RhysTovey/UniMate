@@ -1,4 +1,6 @@
-import java.time.LocalDate;
+import notesystem.NoteManager;
+import taskmanagersystem.TaskManager;
+
 import java.util.Scanner;
 
 /**
@@ -29,6 +31,7 @@ public class Main {
                 case "2":
                     break;
                 case "3":
+                    runNoteManager();
                     break;
                 case "4":
                     break;
@@ -91,12 +94,16 @@ public class Main {
                 "BACK: to return to main menu";
     }
 
-    public static String displayRecurrenceOptions() {
-        return "1. Daily " + "\n" +
-                "2. Weekly " + "\n" +
-                "3. Monthly " + "\n" +
-                 "4. Yearly ";
+    public static String displayNoteMenu() {
+        return """
+                1: Add Modules \s
+                2: Create Notes \s
+                3: Delete Notes \s
+                4: View Notes \s
+                5: View Modules \s
+                0: Return to main menu""";
     }
+
 
     public static void returnToMenu() {
         Scanner input = new Scanner(System.in);
@@ -112,10 +119,10 @@ public class Main {
     }
 
     public static void runTaskManager() throws InterruptedException {
-        TaskManager.readTasks();
-        TaskManager.readCompletedTasks();
-        TaskManager.readRecurringTasks();
-//        TaskManager.checkAndGenerateRecurringTask();
+//        TaskManager.readTasks();
+//        TaskManager.readCompletedTasks();
+//        TaskManager.readRecurringTasks();
+//        taskmanagersystem.TaskManager.checkAndGenerateRecurringTask();
         Scanner input = new Scanner(System.in);
         // While flag is true
         boolean flag = true;
@@ -136,7 +143,7 @@ public class Main {
 
                     break;
                 case "2" :
-                    // Enables user to remove a task given by Task ID displayed in task list
+                    // Enables user to remove a task given by taskmanagersystem.Task ID displayed in task list
                     System.out.println(displayRemoveMenu());
                     System.out.println("Please select which type of task you would like to remove: (1/2/3)");
                     System.out.print(">> ");
@@ -181,6 +188,41 @@ public class Main {
 
                 default:
                     break;
+            }
+
+        }
+    }
+
+    public static void runNoteManager() throws InterruptedException {
+        Scanner input = new Scanner(System.in);
+        boolean flag = true;
+
+        while (flag) {
+            System.out.println(displayNoteMenu());
+            System.out.print(">> ");
+            switch (input.nextLine()) {
+                case "1" :
+                    NoteManager.createModule();
+                    break;
+                case "2" :
+                    NoteManager.createNote();
+                    break;
+                case "3" :
+                    break;
+                case "4" :
+                    break;
+                case "5" :
+                    NoteManager.viewModules();
+                    returnToMenu();
+                    break;
+                case "0" :
+                    flag = false;
+                    System.out.println("Returning to main menu...");
+                    break;
+
+                default:
+                    break;
+
             }
 
         }

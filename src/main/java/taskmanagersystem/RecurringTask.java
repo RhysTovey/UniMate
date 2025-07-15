@@ -1,3 +1,5 @@
+package taskmanagersystem;
+
 import java.io.Serializable;
 import java.time.LocalDate;
 
@@ -52,7 +54,7 @@ public class RecurringTask extends Task implements Serializable {
 
     @Override
     public String toString() {
-        return "Task occurs: " + recurrenceType + "\n" +
+        return "taskmanagersystem.Task occurs: " + recurrenceType + "\n" +
                 "Until: " + endDate + "\n" +
                 "Next occurs: " +  nextOccurenceDate + "\n";
     }
