@@ -26,8 +26,8 @@ public class Main {
         // Boolean enabled menu system
         // Switch statements to control menu selection
         while (flag) {
-            // Loops to display mainmenu
-            System.out.println(displayMainMenu());
+            // Loops to display main menu
+            System.out.println(displayTaskManager());
             System.out.print(">> ");
             String choice = input.nextLine();
             String answer;
@@ -42,7 +42,7 @@ public class Main {
                     String description = input.nextLine();
                     LocalDate startDate = LocalDate.now();
                     System.out.println("Task created at: "
-                            + startDate.getDayOfMonth() + "-" + startDate.getMonthValue() + "-" + startDate.getYear());
+                            + startDate.getYear() + "-" + startDate.getMonthValue() + "-" + startDate.getYear());
                     System.out.println("Enter task deadline (YYYY-MM-DD): ");
                     LocalDate deadline = TaskManager.dateEntry(input);
                     System.out.println("Will this task repeat? (Yes/No)");
@@ -74,26 +74,13 @@ public class Main {
                 case "2" :
                     // Enables user to remove a task given by Task ID displayed in task list
                     System.out.println(displayRemoveMenu());
-                    TaskManager.printActiveTaskList();
-                    System.out.println("Please enter the task ID you want to remove: ");
-                    System.out.println("Or type 'back' to return to main menu");
+                    System.out.println("Please select which type of task you would like to remove: (1/2/3)");
                     System.out.print(">> ");
-                    answer = input.nextLine();
-                    try {
-                        if (answer.equalsIgnoreCase("back")) {
-                            break;
-                        }
-                        TaskManager.removeTask(answer);
-                    }
-                    catch (NumberFormatException e) {
-                        System.out.println("Invalid input, redirecting to main menu");
-                        Thread.sleep(1500);
-                        break;
-                    }
-
+                    String removeOption = input.nextLine();
+                    TaskManager.removeTask(removeOption);
                     break;
 
-                case "3" :
+                case "4" :
                     // Displays all active tasks
                     System.out.println("*** All Active Tasks ***");
                     TaskManager.printActiveTaskList();
@@ -103,7 +90,7 @@ public class Main {
                     returnToMenu(answer);
                     break;
 
-                case "4" :
+                case "3" :
                     // Enables user to mark task as complete
                     System.out.println("*** Printing active tasks ***");
                     TaskManager.printActiveTaskList();
@@ -112,17 +99,7 @@ public class Main {
                     System.out.print(">> ");
                     answer = input.nextLine();
                     //Choice to return to main menu
-
-                    try {
-                        if (answer.equalsIgnoreCase("back")) {
-                            break;
-                        }
-                        TaskManager.markComplete(answer);
-                    }
-                    catch (NumberFormatException e) {
-                        System.out.println("Invalid input, redirecting to main menu");
-                        Thread.sleep(1500);
-                    }
+                    TaskManager.markComplete(answer);
                     break;
 
 
@@ -155,9 +132,9 @@ public class Main {
         }
     }
 
-    public static String displayMainMenu() {
+    public static String displayTaskManager() {
         return """
-                 *** Main Menu ***\s
+                 *** Task Manager System ***\s
                 1: Add Task\s
                 2: Remove Task\s
                 3: Mark Task Complete\s
@@ -172,7 +149,11 @@ public class Main {
     }
 
     public static String displayRemoveMenu(){
-        return "*** Remove Tasks ***";
+        return "*** Remove Tasks ***" + "\n" +
+                "1. Active Tasks " + "\n" +
+                "2. Completed Tasks"  + "\n" +
+                "3. Recurring Tasks" + "\n" +
+                "BACK: to return to main menu";
     }
 
     public static String displayRecurrenceOptions() {

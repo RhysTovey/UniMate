@@ -9,8 +9,6 @@ public class TaskManager {
     private static List<Task> completedTaskList = new ArrayList<>();
     private static List<RecurringTask> recurringTaskList = new ArrayList<>();
 
-
-
     /**
      *
      * @param title
@@ -124,6 +122,10 @@ public class TaskManager {
 
     }
 
+    /**
+     * checkAndGenerateRecurringTask
+     */
+
     public static void checkAndGenerateRecurringTask() {
         LocalDate today  = LocalDate.now();
 
@@ -136,36 +138,97 @@ public class TaskManager {
                         task.setDeadline(task.getNextOccurenceDate()),
                         false
                 );
+                activeTaskList.add(task);
+                System.out.println("New Task generated");
+                task.updateNextOccurenceDate();
             }
-            activeTaskList.add(task);
-            System.out.println("New Task generated");
-
-            task.updateNextOccurenceDate();
-
         }
         saveTasks();
-
     }
+
+
 
     /**
      * removeTask
      * Checks if Tasks exist, if so, tasks are displayed and the user can type the ID and delete
      */
     public static void removeTask(String id) throws InterruptedException {
-        // Take string ID and parse to Int
-        int indexID = Integer.parseInt(id);
-        if (!activeTaskList.isEmpty()) {
-            // Removes from corresponding index in array
-            System.out.println("Task " + indexID + " with the following details has been removed");
-            Thread.sleep(1500);
-            System.out.println(activeTaskList.get(indexID));
-            System.out.println("Returning to main menu");
-            Thread.sleep(1000);
-            activeTaskList.remove(indexID);
-            saveTasks();
-        }
-        else {
-            System.out.println("Task does not exist! ");
+        Scanner input = new Scanner(System.in);
+        switch (id) {
+            case "1":
+                if (!activeTaskList.isEmpty()) {
+                    for (Task task : activeTaskList) {
+                        System.out.println("<---- Task ID " + activeTaskList.indexOf(task) +  " ---->");
+                        System.out.println(task.toString());
+                        break;
+                    }
+                    System.out.println("Please enter the task ID you would like to remove: ");
+                    System.out.print(">> ");
+                    try {
+                        int index = Integer.parseInt(input.nextLine());
+                        activeTaskList.remove(index);
+                        System.out.println("Task successfully removed!");
+                        saveTasks();
+                        break;
+                    }
+                    catch (NumberFormatException e) {
+                        System.out.println("Please enter a valid task ID");
+                        removeTask(id);
+                    }
+
+                }
+                break;
+
+            case "2":
+                if (!completedTaskList.isEmpty()) {
+                    for (Task task : completedTaskList) {
+                        System.out.println("<---- Task ID " + completedTaskList.indexOf(task) +  " ---->");
+                        System.out.println(task.toString());
+                    }
+                    System.out.println("Please enter the task ID you would like to remove: ");
+                    System.out.print(">> ");
+                    try {
+                        int index = Integer.parseInt(input.nextLine());
+                        completedTaskList.remove(index);
+                        System.out.println("Task successfully removed!");
+                        saveTasks();
+                        break;
+                    }
+                    catch (NumberFormatException e) {
+                        System.out.println("Please enter a valid task ID");
+                        removeTask(id);
+                    }
+                }
+                break;
+
+            case "3":
+                if  (!recurringTaskList.isEmpty()) {
+                    for (RecurringTask task : recurringTaskList) {
+                        System.out.println("<---- Task ID " + recurringTaskList.indexOf(task) +  " ---->");
+                        System.out.println(task.toString());
+                    }
+                    System.out.println("Please enter the task ID you would like to remove: ");
+                    System.out.print(">> ");
+                    try {
+                        int index = Integer.parseInt(input.nextLine());
+                        recurringTaskList.remove(index);
+                        System.out.println("Task successfully removed!");
+                        saveTasks();
+                    }
+                    catch (NumberFormatException e) {
+                        System.out.println("Please enter a valid task ID");
+                        removeTask(id);
+                    }
+                }
+                break;
+
+            case "back" :
+                System.out.println("Returning to main menu");
+                break;
+
+            default:
+                System.out.println("Invalid Option, returning to menu");
+                break;
         }
     }
 
@@ -175,20 +238,18 @@ public class TaskManager {
      */
 
     public static void markComplete(String id) {
-        int indexID = Integer.parseInt(id);
-        if (!activeTaskList.isEmpty()) {
-            // Retrieve task from arrayList by specified ID
-            Task task = activeTaskList.get(indexID);
-            task.setComplete(true);
-            // Add to complete, remove from active
-            completedTaskList.add(task);
-            activeTaskList.remove(indexID);
-            System.out.println("Task " + indexID + " has been marked completed");
-            saveTasks();
+        int index  = Integer.parseInt(id);
+        try {
+            activeTaskList.get(index);
         }
-        else {
-            System.out.println("Task does not exist! ");
+        catch (IndexOutOfBoundsException e) {
+            System.out.println("Please enter a valid task ID");
         }
+        catch (NumberFormatException e) {
+            System.out.println("Please enter a valid task ID");
+            markComplete(id);
+        }
+
     }
 
     /**
@@ -341,7 +402,4 @@ public class TaskManager {
         }
     }
 
-    public static void getRecurrenceType() {
-
-    }
 }
