@@ -26,7 +26,7 @@ public class TaskManager {
         try {
             Task newTask = new Task(title, description, creationDate, deadline, completed);
             System.out.println("New task created: " + "\n" + newTask);
-            System.out.println("Returning to main menu");
+            System.out.println("Returning to task menu");
             Thread.sleep(1000);
             if (completed) {
                 completedTaskList.add(newTask);
@@ -171,7 +171,8 @@ public class TaskManager {
                 break;
 
             default:
-                System.out.println("Invalid Option, returning to menu");
+                System.out.println("/// Error ///" + "\n"
+                        + "Invalid Option, returning to menu");
                 break;
         }
     }
@@ -193,10 +194,17 @@ public class TaskManager {
                 saveTasks();
             }
             catch (NumberFormatException e) {
-                System.out.println("Please enter a valid task ID");
+                System.out.println("/// Error ///" + "\n"
+                        + "Please enter a valid task ID");
                 removeTask(id);
             }
 
+        }
+        else {
+            System.out.println("/// Error ///" + "\n"
+                    + "There are no tasks in this list!");
+            Thread.sleep(1500);
+            return;
         }
         input.close();
     }
@@ -238,6 +246,7 @@ public class TaskManager {
                 markComplete();
             }
         }
+        input.close();
 
     }
 

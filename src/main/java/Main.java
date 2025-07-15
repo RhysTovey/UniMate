@@ -76,7 +76,7 @@ public class Main {
                 4: View Active Tasks\s
                 5: View Completed Tasks\s
                 6: View Recurring Tasks\s
-                0: Exit""";
+                0: Return to Main Menu""";
     }
 
     public static String displayAddMenu(){
@@ -119,7 +119,6 @@ public class Main {
         Scanner input = new Scanner(System.in);
         // While flag is true
         boolean flag = true;
-
         // Boolean enabled menu system
         // Switch statements to control menu selection
         while (flag) {
@@ -127,7 +126,6 @@ public class Main {
             System.out.println(displayTaskManager());
             System.out.print(">> ");
             String choice = input.nextLine();
-            String answer;
             switch (choice) {
                 // Calls to create task
                 case "1" :
