@@ -1,3 +1,4 @@
+import notesystem.NoteCLI;
 import notesystem.NoteManager;
 import taskmanagersystem.TaskManager;
 
@@ -20,6 +21,8 @@ public class Main {
         boolean running = true;
         Scanner input = new Scanner(System.in);
         System.out.println("Welcome to UniMate");
+        NoteManager noteManager = new NoteManager();
+        NoteCLI noteCLI = new NoteCLI(noteManager);
 //        Thread.sleep(2000);
         while (running) {
             System.out.println(displayMainMenu());
@@ -31,7 +34,7 @@ public class Main {
                 case "2":
                     break;
                 case "3":
-                    runNoteManager();
+                    noteCLI.run();
                     break;
                 case "4":
                     break;
@@ -49,12 +52,10 @@ public class Main {
                     System.out.println("Invalid input. Try again.");
 
 
-
             }
         }
 
     }
-
 
 
     public static String displayMainMenu() {
@@ -82,14 +83,14 @@ public class Main {
                 0: Return to Main Menu""";
     }
 
-    public static String displayAddMenu(){
+    public static String displayAddMenu() {
         return "*** Add Tasks ***";
     }
 
-    public static String displayRemoveMenu(){
+    public static String displayRemoveMenu() {
         return "*** Remove Tasks ***" + "\n" +
                 "1. Active Tasks " + "\n" +
-                "2. Completed Tasks"  + "\n" +
+                "2. Completed Tasks" + "\n" +
                 "3. Recurring Tasks" + "\n" +
                 "BACK: to return to main menu";
     }
@@ -111,8 +112,7 @@ public class Main {
         String answer = input.nextLine();
         if (answer.equalsIgnoreCase("back")) {
             System.out.println("Back to main menu");
-        }
-        else {
+        } else {
             System.out.println("Invalid input. Try again.");
             returnToMenu();
         }
@@ -135,14 +135,14 @@ public class Main {
             String choice = input.nextLine();
             switch (choice) {
                 // Calls to create task
-                case "1" :
+                case "1":
                     // Prompt user for Input to fill in each param to create a new task
                     System.out.println(displayAddMenu());
                     TaskManager.createTaskInput();
 
 
                     break;
-                case "2" :
+                case "2":
                     // Enables user to remove a task given by taskmanagersystem.Task ID displayed in task list
                     System.out.println(displayRemoveMenu());
                     System.out.println("Please select which type of task you would like to remove: (1/2/3)");
@@ -151,14 +151,14 @@ public class Main {
                     TaskManager.removeTask(removeOption);
                     break;
 
-                case "4" :
+                case "4":
                     // Displays all active tasks
                     System.out.println("*** All Active Tasks ***");
                     TaskManager.printActiveTaskList();
                     returnToMenu();
                     break;
 
-                case "3" :
+                case "3":
                     // Enables user to mark task as complete
                     System.out.println("*** Printing active tasks ***");
                     TaskManager.printActiveTaskList();
@@ -167,20 +167,20 @@ public class Main {
                     break;
 
 
-                case "5" :
+                case "5":
                     System.out.println("*** Printing completed tasks ***");
                     TaskManager.printCompletedTaskList(choice);
                     returnToMenu();
                     break;
 
 
-                case "6" :
+                case "6":
                     System.out.println("*** Printing Recurring tasks ***");
                     TaskManager.printRecurringTaskList();
                     returnToMenu();
                     break;
 
-                case "0" :
+                case "0":
                     // Exits program
                     System.out.println("Returning to main menu...");
                     flag = false;
@@ -192,39 +192,5 @@ public class Main {
 
         }
     }
-
-    public static void runNoteManager() throws InterruptedException {
-        Scanner input = new Scanner(System.in);
-        boolean flag = true;
-
-        while (flag) {
-            System.out.println(displayNoteMenu());
-            System.out.print(">> ");
-            switch (input.nextLine()) {
-                case "1" :
-                    NoteManager.createModule();
-                    break;
-                case "2" :
-                    NoteManager.createNote();
-                    break;
-                case "3" :
-                    break;
-                case "4" :
-                    break;
-                case "5" :
-                    NoteManager.viewModules();
-                    returnToMenu();
-                    break;
-                case "0" :
-                    flag = false;
-                    System.out.println("Returning to main menu...");
-                    break;
-
-                default:
-                    break;
-
-            }
-
-        }
-    }
 }
+

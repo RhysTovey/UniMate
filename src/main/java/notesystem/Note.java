@@ -2,43 +2,43 @@ package notesystem;
 
 import java.time.LocalDateTime;
 
-public class Note extends ModuleNotes {
-    /*
-     * Instance variables
-     */
-
+public class Note {
     private String title;
-    private String noteContent;
-    private LocalDateTime date;
+    private String content;
+    private LocalDateTime createdAt;
+    private String moduleCode; // reference to parent module
 
-    public Note(String title, String noteContent, LocalDateTime date) {
-        super();
+    public Note(String title, String content, LocalDateTime createdAt) {
         this.title = title;
-        this.noteContent = noteContent;
-        this.date = date;
+        this.content = content;
+        this.createdAt = createdAt;
     }
 
-    /*
-     * Getters and Setters
-     */
+    // Optional: use this to set after adding to a module
+    public void setModuleCode(String moduleCode) {
+        this.moduleCode = moduleCode;
+    }
+
+    public String getModuleCode() {
+        return moduleCode;
+    }
 
     public String getTitle() {
         return title;
     }
-    public void setTitle(String title) {
-        this.title = title;
-    }
-    public String getNoteContent() {
-        return noteContent;
-    }
-    public void setNoteContent(String noteContent) {
-        this.noteContent = noteContent;
-    }
-    public LocalDateTime getDate() {
-        return date;
-    }
-    public void setDate(LocalDateTime date) {
-        this.date = date;
+
+    public String getContent() {
+        return content;
     }
 
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    @Override
+    public String toString() {
+        return "Title: " + title + "\n" +
+                "Note Contents:\n" + content + "\n" +
+                "Created At: " + createdAt;
+    }
 }

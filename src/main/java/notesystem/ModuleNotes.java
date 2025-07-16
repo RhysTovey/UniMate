@@ -1,76 +1,53 @@
 package notesystem;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ModuleNotes {
-    /*
-        Module Variables
-     */
-
     private String moduleCode;
     private String moduleName;
     private ModuleDuration moduleDuration;
-    private ArrayList<Note> moduleNotes;
+    private final List<Note> notes;
 
-
-    public ModuleNotes(String moduleCode, String moduleName, ModuleDuration moduleDuration, ArrayList<Note> moduleNotes) {
-        this.moduleCode = moduleCode;
-        this.moduleName = moduleName;
-        this.moduleDuration = moduleDuration;
-        this.moduleNotes = moduleNotes;
+    public ModuleNotes(String code, String name, ModuleDuration duration) {
+        this.moduleCode = code;
+        this.moduleName = name;
+        this.moduleDuration = duration;
+        this.notes = new ArrayList<>();
     }
 
-    /*
-     * No arg-constructor for Note sub-class
-     */
+    // Optional: for frameworks or deserialization
     public ModuleNotes() {
-
+        this.notes = new ArrayList<>();
     }
-
-    /*
-     * Getters and Setters
-     */
 
     public String getModuleCode() {
         return moduleCode;
     }
-    public void setModuleCode(String moduleCode) {
-        this.moduleCode = moduleCode;
-    }
+
     public String getModuleName() {
         return moduleName;
     }
-    public void setModuleName(String moduleName) {
-        this.moduleName = moduleName;
-    }
+
     public ModuleDuration getModuleDuration() {
         return moduleDuration;
     }
-    public void setModuleDuration(ModuleDuration moduleDuration) {
-        this.moduleDuration = moduleDuration;
-    }
-    public ArrayList<Note> getModuleNotes() {
-        return moduleNotes;
-    }
-    public void setModuleNotes(ArrayList<Note> moduleNotes) {
-        this.moduleNotes = moduleNotes;
+
+    public List<Note> getNotes() {
+        return notes;
     }
 
-    public void addModuleNote(Note note) {
-        this.moduleNotes.add(note);
+    public void addNote(Note note) {
+        notes.add(note);
+        note.setModuleCode(moduleCode);
     }
-
 
     @Override
     public String toString() {
-        return "*** Module ***" +"\n"
-                + moduleCode + "\n"
-                + moduleName + "\n"
-                + moduleDuration + "\n"
-                + moduleNotes.size() + " Recorded notes";
+        return "*** Module ***\n" +
+                moduleCode + "\n" +
+                moduleName + "\n" +
+                moduleDuration + "\n" +
+                notes.size() + " recorded notes";
     }
-    // Comparable by time_created
-
-
-
 }
