@@ -57,7 +57,6 @@ public class Main {
                 default:
                     System.out.println("Invalid input. Try again.");
 
-
             }
         }
 
@@ -113,80 +112,5 @@ public class Main {
             returnToMenu();
         }
     }
-
-//    public static void runTaskManager() throws InterruptedException {
-////        TaskManager.readTasks();
-////        TaskManager.readCompletedTasks();
-////        TaskManager.readRecurringTasks();
-////        taskmanagersystem.TaskManager.checkAndGenerateRecurringTask();
-//        Scanner input = new Scanner(System.in);
-//        // While flag is true
-//        boolean flag = true;
-//        // Boolean enabled menu system
-//        // Switch statements to control menu selection
-//        while (flag) {
-//            // Loops to display main menu
-//            System.out.println(displayTaskManager());
-//            System.out.print(">> ");
-//            String choice = input.nextLine();
-//            switch (choice) {
-//                // Calls to create task
-//                case "1":
-//                    // Prompt user for Input to fill in each param to create a new task
-//                    System.out.println(displayAddMenu());
-//                    TaskManager.createTaskInput();
-//
-//
-//                    break;
-//                case "2":
-//                    // Enables user to remove a task given by taskmanagersystem.Task ID displayed in task list
-//                    System.out.println(displayRemoveMenu());
-//                    System.out.println("Please select which type of task you would like to remove: (1/2/3)");
-//                    System.out.print(">> ");
-//                    String removeOption = input.nextLine();
-//                    TaskManager.removeTask(removeOption);
-//                    break;
-//
-//                case "4":
-//                    // Displays all active tasks
-//                    System.out.println("*** All Active Tasks ***");
-//                    TaskManager.printActiveTaskList();
-//                    returnToMenu();
-//                    break;
-//
-//                case "3":
-//                    // Enables user to mark task as complete
-//                    System.out.println("*** Printing active tasks ***");
-//                    TaskManager.printActiveTaskList();
-//                    //Choice to return to main menu
-//                    TaskManager.markComplete();
-//                    break;
-//
-//
-//                case "5":
-//                    System.out.println("*** Printing completed tasks ***");
-//                    TaskManager.printCompletedTaskList(choice);
-//                    returnToMenu();
-//                    break;
-//
-//
-//                case "6":
-//                    System.out.println("*** Printing Recurring tasks ***");
-//                    TaskManager.printRecurringTaskList();
-//                    returnToMenu();
-//                    break;
-//
-//                case "0":
-//                    // Exits program
-//                    System.out.println("Returning to main menu...");
-//                    flag = false;
-//                    break;
-//
-//                default:
-//                    break;
-//            }
-//
-//        }
-//    }
 }
 

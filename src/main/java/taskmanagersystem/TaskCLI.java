@@ -2,6 +2,7 @@ package taskmanagersystem;
 
 import javax.print.attribute.standard.PDLOverrideSupported;
 import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -28,6 +29,7 @@ public class TaskCLI {
                 6: View Completed Tasks\s
                 7: View Recurring Tasks\s
                 0: Return to Main Menu""");
+            System.out.print(">> ");
             int choice = scanner.nextInt();
             switch (choice) {
                 case 1:
@@ -48,6 +50,9 @@ public class TaskCLI {
                     break;
                 case 7:
                     break;
+                case 0:
+                    System.out.println("Returning to Main Menu");
+                    break;
 
                 default:
                     System.out.println("Invalid choice");
@@ -56,33 +61,41 @@ public class TaskCLI {
     }
 
     private void createTaskFlow() {
-        System.out.print("Enter title: ");
+        scanner.nextLine();
+        System.out.println("Enter title: ");
         String title = scanner.nextLine();
-        System.out.print("Enter description: ");
+        System.out.println("Enter description: ");
         String desc = scanner.nextLine();
-        System.out.print("Enter deadline (YYYY-MM-DD): ");
-        LocalDate deadline = LocalDate.parse(scanner.nextLine());
+        LocalDate deadline = dateHelper();
         taskService.createTask(title, desc, LocalDate.now(), deadline, false);
         System.out.println("Task created!");
     }
 
     private void createRecurringTask() {
+        scanner.nextLine();
         System.out.println("Enter title: ");
         String title = scanner.nextLine();
-        System.out.print("Enter description: ");
+        System.out.println("Enter description: ");
         String desc = scanner.nextLine();
-        System.out.print("Enter deadline (YYYY-MM-DD): ");
-        LocalDate deadline = LocalDate.parse(scanner.nextLine());
+        System.out.println("Enter deadline (YYYY-MM-DD): ");
+        LocalDate deadline = dateHelper();
         System.out.println("""
                 How often would you like this task to repeat?\s
-                > Daily \s
-                > Weekly \s
-                > Monthly \s
-                > Yearly \s
-               \s""");
-        RecurrenceType type =  RecurrenceType.valueOf(scanner.next().toUpperCase().trim());
+                > Daily\s
+                > Weekly\s
+                > Monthly\s
+                > Yearly\s""");
+        RecurrenceType type;
+        while (true) {
+            try {
+                type = RecurrenceType.valueOf(scanner.nextLine().toUpperCase().trim());
+                break;
+            } catch (IllegalArgumentException e) {
+                System.out.println("Invalid input. Try again.");
+            }
+        }
         System.out.println("When would you like this to repeat until? (YYYY-MM-DD)");
-        LocalDate endDate = LocalDate.parse(scanner.nextLine());
+        LocalDate endDate = dateHelper();
         taskService.createRecurringTask(title, desc, LocalDate.now(), deadline, false, type, endDate);
         System.out.println("Task created!");
     }
@@ -162,6 +175,22 @@ public class TaskCLI {
             System.out.println("Invalid task ID");
         }
     }
+
+    private LocalDate dateHelper(){
+        LocalDate date = null;
+        while (true) {
+            try {
+                date = LocalDate.parse(scanner.nextLine());
+                break;
+            }
+            catch (DateTimeParseException e) {
+                System.out.println("Invalid date format");
+            }
+        }
+        return date;
+    }
+
+
 
 
 
