@@ -18,7 +18,11 @@ public class TaskCLI {
     }
 
     public void run() {
-        while (true) {
+        boolean running = true;
+        TaskRepository.load("src/main/resources/activetasks.dat");
+        TaskRepository.load("src/main/resources/completedtasks.dat");
+        TaskRepository.load("src/main/resources/recurringtasks.dat");
+        while (running) {
             System.out.println("""
                 *** Task Manager System ***\s
                 1: Add Task\s
@@ -45,13 +49,17 @@ public class TaskCLI {
                     markComplete();
                     break;
                 case 5:
+                    System.out.println(taskManager.getActiveTasks());
                     break;
                 case 6:
+                    System.out.println(taskManager.getCompletedTasks());
                     break;
                 case 7:
+                    System.out.println(taskManager.getRecurringTasks());
                     break;
                 case 0:
                     System.out.println("Returning to Main Menu");
+                    running = false;
                     break;
 
                 default:
@@ -66,9 +74,11 @@ public class TaskCLI {
         String title = scanner.nextLine();
         System.out.println("Enter description: ");
         String desc = scanner.nextLine();
+        System.out.println("Enter Deadline (YYYY-MM-DD): ");
         LocalDate deadline = dateHelper();
         taskService.createTask(title, desc, LocalDate.now(), deadline, false);
         System.out.println("Task created!");
+        TaskRepository.save("src/main/resources/activetasks.dat",  taskManager.getActiveTasks());
     }
 
     private void createRecurringTask() {
@@ -97,6 +107,7 @@ public class TaskCLI {
         System.out.println("When would you like this to repeat until? (YYYY-MM-DD)");
         LocalDate endDate = dateHelper();
         taskService.createRecurringTask(title, desc, LocalDate.now(), deadline, false, type, endDate);
+        TaskRepository.save("src/main/resources/recurringtasks.dat",  taskManager.getRecurringTasks());
         System.out.println("Task created!");
     }
 
@@ -136,15 +147,14 @@ public class TaskCLI {
             if(id >= 0 && id < taskManager.getActiveTasks().size()) {
                 taskManager.markTaskComplete(id);
                 System.out.println("Task marked as completed!");
+                TaskRepository.save("src/main/resources/completedtasks.dat",  taskManager.getCompletedTasks());
             }
             else {
                 System.out.println("Invalid ID");
-                return;
             }
         }
         catch (NumberFormatException | IndexOutOfBoundsException e) {
             System.out.println("Invalid ID");
-            return;
         }
     }
 

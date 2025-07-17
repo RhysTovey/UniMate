@@ -1,3 +1,5 @@
+import journaling.Journal;
+import journaling.JournalCLI;
 import notesystem.NoteCLI;
 import notesystem.NoteManager;
 import taskmanagersystem.Task;
@@ -16,8 +18,6 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) throws InterruptedException {
         runCLI();
-
-
     }
 
     public static void runCLI() throws InterruptedException {
@@ -29,6 +29,8 @@ public class Main {
         TaskManager taskManager = new TaskManager();
         TaskService taskService = new TaskService(taskManager);
         TaskCLI taskCLI = new TaskCLI(taskService, taskManager);
+        Journal journal = new Journal();
+        JournalCLI jCLI = new JournalCLI(journal);
 //        Thread.sleep(2000);
         while (running) {
             System.out.println(displayMainMenu());
@@ -38,6 +40,7 @@ public class Main {
                     taskCLI.run();
                     break;
                 case "2":
+                    jCLI.run();
                     break;
                 case "3":
                     noteCLI.run();
