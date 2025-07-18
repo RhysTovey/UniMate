@@ -30,8 +30,7 @@ public class Main {
         TaskService taskService = new TaskService(taskManager);
         TaskCLI taskCLI = new TaskCLI(taskService, taskManager);
         Journal journal = new Journal();
-        JournalCLI jCLI = new JournalCLI(journal);
-//        Thread.sleep(2000);
+        JournalCLI journalCLI = new JournalCLI(journal);
         while (running) {
             System.out.println(displayMainMenu());
             System.out.print(">> ");
@@ -40,7 +39,7 @@ public class Main {
                     taskCLI.run();
                     break;
                 case "2":
-                    jCLI.run();
+                    journalCLI.run();
                     break;
                 case "3":
                     noteCLI.run();

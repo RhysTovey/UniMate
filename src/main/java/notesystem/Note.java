@@ -1,12 +1,14 @@
 package notesystem;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
-public class Note {
+public class Note implements Serializable {
     private String title;
     private String content;
     private LocalDateTime createdAt;
     private String moduleCode; // reference to parent module
+    private static final long serialVersionUID = 1L;
 
     public Note(String title, String content, LocalDateTime createdAt) {
         this.title = title;

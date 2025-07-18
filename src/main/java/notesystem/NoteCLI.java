@@ -1,5 +1,7 @@
 package notesystem;
 
+import fileRepo.FileRepository;
+
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Scanner;
@@ -17,6 +19,13 @@ public class NoteCLI {
     }
 
     public void run() {
+        try {
+            noteManager.setAllNotes(FileRepository.load("src/main/resources/notes.dat"));
+            noteManager.setModules(FileRepository.load("src/main/resources/modules.dat"));
+            noteManager.populateModules();
+        }catch(Exception e){
+            System.err.println("Error loading notes file");
+        }
         while (true) {
             System.out.println("""
                 1. Create Module
@@ -103,6 +112,9 @@ public class NoteCLI {
 
         if (confirm.equalsIgnoreCase("yes")) {
             boolean removed = noteManager.deleteModule(moduleCode);
+            if (removed) {
+                noteManager.modifyDeletedFiles(true);
+            }
             System.out.println(removed ? "Module deleted." : "Module not found.");
         } else {
             System.out.println("Deletion cancelled.");

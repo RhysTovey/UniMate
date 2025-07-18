@@ -29,4 +29,9 @@ public class JournalEntry {
     public String dateToString(LocalDate date) {
         return date.getMonth().toString() + " " + date.getDayOfMonth() + " " + date.getYear();
     }
+
+    @Override
+    public String toString() {
+        return dateToString(date) + "\n"  + location + "\n" + entryContents;
+    }
 }

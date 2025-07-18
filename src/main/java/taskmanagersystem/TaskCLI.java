@@ -1,11 +1,15 @@
 package taskmanagersystem;
 
+
+
 import javax.print.attribute.standard.PDLOverrideSupported;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import fileRepo.FileRepository;
+
 
 public class TaskCLI {
     private final Scanner scanner = new Scanner(System.in);
@@ -19,9 +23,10 @@ public class TaskCLI {
 
     public void run() {
         boolean running = true;
-        TaskRepository.load("src/main/resources/activetasks.dat");
-        TaskRepository.load("src/main/resources/completedtasks.dat");
-        TaskRepository.load("src/main/resources/recurringtasks.dat");
+
+        taskManager.setActiveTasks(FileRepository.load("src/main/resources/taskfiles/activetasks.dat"));
+        taskManager.setCompletedTasks(FileRepository.load("src/main/resources/taskfiles/completedtasks.dat"));
+        taskManager.setRecurringTasks(FileRepository.load("src/main/resources/taskfiles/recurringtasks.dat"));
         while (running) {
             System.out.println("""
                 *** Task Manager System ***\s
@@ -78,7 +83,7 @@ public class TaskCLI {
         LocalDate deadline = dateHelper();
         taskService.createTask(title, desc, LocalDate.now(), deadline, false);
         System.out.println("Task created!");
-        TaskRepository.save("src/main/resources/activetasks.dat",  taskManager.getActiveTasks());
+        FileRepository.save("src/main/resources/taskfiles/activetasks.dat",  taskManager.getActiveTasks());
     }
 
     private void createRecurringTask() {
@@ -107,7 +112,7 @@ public class TaskCLI {
         System.out.println("When would you like this to repeat until? (YYYY-MM-DD)");
         LocalDate endDate = dateHelper();
         taskService.createRecurringTask(title, desc, LocalDate.now(), deadline, false, type, endDate);
-        TaskRepository.save("src/main/resources/recurringtasks.dat",  taskManager.getRecurringTasks());
+        FileRepository.save("src/main/resources/taskfiles/recurringtasks.dat",  taskManager.getRecurringTasks());
         System.out.println("Task created!");
     }
 
@@ -115,9 +120,9 @@ public class TaskCLI {
         printRmvOptions();
         while (true) {
             switch (scanner.nextLine()) {
-                case "1" -> removeHelper(taskManager.getActiveTasks(), taskManager);
-                case "2" ->  removeHelper(taskManager.getCompletedTasks(), taskManager);
-                case "3" ->  removeHelper(taskManager.getRecurringTasks(), taskManager);
+                case "1" -> removeHelper(taskManager.getActiveTasks());
+                case "2" ->  removeHelper(taskManager.getCompletedTasks());
+                case "3" ->  removeHelper(taskManager.getRecurringTasks());
                 case "back", "exit" ->
                     System.out.println("Returning to menu");
                 default -> System.out.println("Invalid choice");
@@ -147,7 +152,7 @@ public class TaskCLI {
             if(id >= 0 && id < taskManager.getActiveTasks().size()) {
                 taskManager.markTaskComplete(id);
                 System.out.println("Task marked as completed!");
-                TaskRepository.save("src/main/resources/completedtasks.dat",  taskManager.getCompletedTasks());
+                FileRepository.save("src/main/resources/taskfiles/completedtasks.dat",  taskManager.getCompletedTasks());
             }
             else {
                 System.out.println("Invalid ID");
@@ -158,7 +163,7 @@ public class TaskCLI {
         }
     }
 
-    private void removeHelper(List<? extends Task> tasks, TaskManager taskManager) {
+    private <T> void removeHelper(List<T> tasks) {
         if (tasks.isEmpty()) {
             System.out.println("No tasks found!");
             return;

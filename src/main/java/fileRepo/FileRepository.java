@@ -1,9 +1,9 @@
-package taskmanagersystem;
+package fileRepo;
 
 import java.io.*;
 import java.util.List;
 
-public class TaskRepository {
+public class FileRepository {
     public static <T> void save(String filePath, List<T> list) {
         try(ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(filePath))) {
             out.writeObject(list);

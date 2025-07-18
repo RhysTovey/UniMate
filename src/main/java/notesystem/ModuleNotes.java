@@ -1,13 +1,15 @@
 package notesystem;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ModuleNotes {
+public class ModuleNotes implements Serializable {
     private String moduleCode;
     private String moduleName;
     private ModuleDuration moduleDuration;
     private final List<Note> notes;
+    private static final long serialVersionUID = 1L;
 
     public ModuleNotes(String code, String name, ModuleDuration duration) {
         this.moduleCode = code;

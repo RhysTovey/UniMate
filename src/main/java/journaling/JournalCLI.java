@@ -21,9 +21,10 @@ public class JournalCLI {
                     createJournalEntry();
                     break;
                 case "2":
-                    viewJournalEntry();
+                    journal.iterateMap();
                     break;
                 case "3":
+                    viewJournalEntry();
                     break;
 
                 case "0":
@@ -57,8 +58,16 @@ public class JournalCLI {
     }
 
     private void viewJournalEntry() {
-        System.out.println("*** Printing all Journal Entries ***");
-        journal.getJournalEntries();
+        System.out.println("Please Select the Journal Year");
+        journal.printYear();
+        int year = input.nextInt();
+        System.out.println(">> ");
+        System.out.println("Journalled Months in " + year);
+        System.out.println("Please Select the Journal Month");
+        System.out.println(">> ");
+        int month = input.nextInt();
+        journal.printMonth(month);
+
     }
 
 

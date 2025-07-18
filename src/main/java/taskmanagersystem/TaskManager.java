@@ -1,10 +1,7 @@
 package taskmanagersystem;
 
-import java.io.*;
-import java.time.LocalDate;
-import java.time.chrono.ChronoLocalDate;
-import java.time.format.DateTimeParseException;
 import java.util.*;
+import java.io.*;
 
 public class TaskManager {
     private static List<Task> activeTasks = new ArrayList<>();
@@ -14,6 +11,18 @@ public class TaskManager {
     public List<Task> getActiveTasks() { return activeTasks; }
     public List<Task> getCompletedTasks() { return completedTasks; }
     public List<RecurringTask> getRecurringTasks() { return recurringTasks; }
+
+    public void setActiveTasks(List<Task> activeTasks) {
+        TaskManager.activeTasks = activeTasks;
+    }
+
+    public void setCompletedTasks(List<Task> completedTasks) {
+        TaskManager.completedTasks = completedTasks;
+    }
+
+    public void setRecurringTasks(List<RecurringTask> recurringTasks) {
+        TaskManager.recurringTasks = recurringTasks;
+    }
 
 
     public void addTask(Task task) {
